@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block titulo %} - Altere suas informa&ccedil;&otilde;es{% endblock %}
+{% block extrahead %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/jquery-maskedinput.js" ></script>
+
+<script type="text/javascript" language="javascript">		
+	//Mascaras para o formulario - jquery-maskedinput.js
+	$(document).ready(function(){
+		$("#id_telefone").mask("(99) 9999-9999");			
+		$("#id_nascimento").mask("99/99/9999");
+		$("#id_cpf").mask("999.999.999-99");
+		
+		$("#id_form_pessoal").bind("submit", function(){			
+			//enviarCadastro();
+			//return false;
+		});	
+	});
+</script>
+{% endblock %}
+{% block conteudo %}
+<div class="grid_12 alpha">
+	<div class="pessoal grid_8 alpha">
+    	{% if enviado %}
+        <h2 class="subtitle grid_8 alpha">Suas informa&ccedil;&otilde;es foram alteradas</h2>        
+        <a class="ui-state-highlight ui-corner-all" href="/">voltar para home do site</a>
+        {% else %}
+        <h2 class="subtitle grid_8 alpha">Altere suas informa&ccedil;&otilde;es</h2>
+        <div class="clr">&nbsp;</div>               
+		<form id="id_form_alterardados" action="/modoz/alterar_dados/" method="POST">
+        	<fieldset>
+            	{{ form.nome.errors }}
+            	<label>Nome</label>
+                <div class="ipt_grande">
+                	<img src="{{MEDIA_URL}}img/ico-input-bordleft-white.png" />
+                	<input id="id_nome" name="nome" type="text" value="{{pessoal.nome}}"/>
+                    <img src="{{MEDIA_URL}}img/ico-input-bordright-white.png" />
+                </div>
+            </fieldset>
+            <fieldset>
+            	{{ form.endereco.errors }}
+            	<label>Endere&ccedil;o</label>
+                <div class="ipt_grande">
+                	<img src="{{MEDIA_URL}}img/ico-input-bordleft-white.png" />
+                    <input id="id_endereco" name="endereco" class="ipt_grande" type="text" value="{{pessoal.endereco}}"/>
+                    <img src="{{MEDIA_URL}}img/ico-input-bordright-white.png" />
+                </div>
+            </fieldset>
+            <fieldset>
+            	{{ form.telefone.errors }}
+            	<label>Celular</label>
+                <div class="ipt_medio">
+                	<img src="{{MEDIA_URL}}img/ico-input-bordleft-white.png" />
+                    <input id="id_telefone" name="telefone" class="ipt_medio" type="text" value="{{pessoal.telefone}}"/>
+                    <img src="{{MEDIA_URL}}img/ico-input-bordright-white.png" />
+                </div>
+            </fieldset>
+            <fieldset>
+            	{{ form.cidade.errors }}
+            	<label>Cidade</label>
+                <div>
+                	{{form.cidade}}
+                </div>
+            </fieldset> 
+            <fieldset>
+            	{{ form.sexo.errors }}
+            	<label>Sexo</label>
+                <div>
+                	{{ form.sexo }}
+                </div>
+            </fieldset>
+            <fieldset>
+            	{{ form.password.errors }}
+            	<label>Informe sua Senha</label>
+                <div>
+                	<img src="{{MEDIA_URL}}img/ico-input-bordleft-white.png" />
+                	{{form.password}}                    
+                    <img src="{{MEDIA_URL}}img/ico-input-bordright-white.png" />
+                </div>
+            </fieldset>
+            <fieldset>
+            	{{ form.confirme.errors }}
+            	<label>Confirme sua senha</label>
+                <div>
+                	<img src="{{MEDIA_URL}}img/ico-input-bordleft-white.png" />
+                	{{form.confirme}}
+                    <img src="{{MEDIA_URL}}img/ico-input-bordright-white.png" />
+                </div>
+            </fieldset>
+            <fieldset>
+            	{{ form.opt.errors }}
+            	{{form.opt}}
+                <label class="lbl_checkbox">N&atilde;o quero receber informa&ccedil;&otilde;es e novidades sobre a modoz em meu email</label>
+            </fieldset>
+            <fieldset><p class="ui-state-highlight ui-corner-all" style="display:none;" id="alertpessoal">&nbsp;</p></fieldset>            
+            <fieldset class="submitline"><input class="submit" type="submit" value="enviar" /></fieldset>
+        </form>
+        {% endif %}
+    </div>
+    <div class="sidebar grid_4 omega"> 
+    	<div class="clientesparceiros">
+            <img class="title" src="{{MEDIA_URL}}img/title-clientesparceiros.png" />
+            <img class="fl" src="{{MEDIA_URL}}img/bg-divs-white-up.png" />
+            <ul class="area" id="clientes_slideshow">
+                <li><a href="#fagulha"><img src="{{MEDIA_URL}}img/ban-clientes-fagulha.png" /></a></li>
+            </ul>
+            <img class="fl" src="{{MEDIA_URL}}img/bg-divs-white-bottom.png">
+        </div>   
+        <div class="clr">&nbsp;</div>
+        <div class="twitter">
+            <img src="{{MEDIA_URL}}img/ico-twitter.png"/>
+            <label>Siga-nos em <a href="http://www.twitter.com/modoz">@modoz</a></label>
+            <img class="fl" src="{{MEDIA_URL}}img/bg-divs-white-up.png" />
+            <ul id="tweets"><li><img src="http://a1.twimg.com/profile_images/1128401397/Twitter_normal.jpg"><a href="http://www.twitter.com/modoz" class="tit">modoz</a><p>n&atilde;o perca tempo, cadastre agora mesmo em nosso site e fique por dentro de todas as promo&ccedil;&otilde;es da sua cidade. www.modoz.com.br</p></li></ul>
+            <img class="fl" src="{{MEDIA_URL}}img/bg-divs-white-bottom.png" />
+        </div>
+        <div class="clr">&nbsp;</div>    
+        <div class="opiniao">
+            <img class="fl" src="{{MEDIA_URL}}img/bg-divs-white-sugira-up.png" />
+            <label>Sua opini&atilde;o &eacute; importante para n&oacute;s</label>
+            <label id="alertopiniao" style="display:none;">&nbsp;</label>
+            <form id="id_form_opiniao" action="/modoz/opiniao/" method="POST">
+                <img class="fl" src="{{MEDIA_URL}}img/ico-input-bordleft.png" />	
+                <input id="id_texto" class="input" type="text" value="Escreva aqui" name="texto" onfocus="if(this.value=='Escreva aqui'){this.value='';}" onblur="if(this.value==''){this.value='Escreva aqui';}" />
+                <img class="fl" src="{{MEDIA_URL}}img/ico-input-bordright.png" />	
+                <input class="enviar" type="submit" value="OK!"/>
+            </form>
+            <img class="fl" src="{{MEDIA_URL}}img/bg-divs-white-sugira-bottom.png" />
+        </div>
+        
+        
+    </div>  
+ </div>   
+{% endblock conteudo %}

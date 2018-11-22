@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block titulo %} - Cadastro{% endblock %}
+{% block extrahead %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/jquery-maskedinput.js" ></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/valida-presenteado.js" ></script>
+
+<script type="text/javascript" language="javascript">		
+	//Mascaras para o formulario - jquery-maskedinput.js
+	$(document).ready(function(){
+		$("#id_telefone").mask("(99) 9999-9999");			
+		$("#id_nascimento").mask("99/99/9999");
+		$("#id_cpf").mask("999.999.999-99");
+		
+		{% if compras %}
+		{% for compra in compras %}
+		$("#id_form_presentear_{{compra.id}}").bind("submit", function(){			
+			enviarPresentear("#id_form_presentear_{{compra.id}}");
+			return false;
+		});	
+		{% endfor %}
+		{% endif %}
+		
+		$.jTwitter('modoz', 5, function(data){
+			$('#tweets').empty();
+			$.each(data, function(i, post){
+				$('#tweets').append('<li><img src="'
+       + post.user.profile_image_url + '" /><a class="tit" href="http://www.twitter.com/modoz">'+post.user.screen_name +'</a><p>'
+					+post.text+'</p></li>');					
+			});
+			$('#tweets').cycle({
+				fx: 'scrollDown',
+				delay:6000,
+				speed:5000
+			});
+		});	
+		$('#clientes_slideshow').cycle({
+			fx: 'scrollDown',
+			delay:2000,
+			speed:1000
+		});
+	});
+</script>
+{% endblock %}
+{% block conteudo %}
+<div class="grid_12 alpha">
+	<div class="pessoal grid_12 alpha">
+    	<h2 class="subtitle">Meus Cupons</h2>
+        {% if compras %}
+        <div class="infos_compras">
+            <table>
+                <thead>
+                    <td class="title_tb_compras">Compras Realizadas</td>
+                    <td class="title_tb_status">Status da Compra</td>
+                    <td class="title_tb_dt_solicitacao">Data de Solicita&ccedil;&atilde;o</td>
+                    <td class="title_tb_presenteado">Presenteado<br/>(quem vai utilizar)</td>
+                    <td class="title_tb_dt_liberacao">Data de Libera&ccedil;&atilde;o do Cupom</td>
+                    <td class="title_tb_vercupom">Ver Cupom</td>
+                </thead>
+                {% for compra in compras %}
+                	{% ifequal compra.cod_status '1' %}
+                    <tr>
+                        <td class="title_tb_compras_oferta"><a>{{compra.oferta}}</a></td>
+                        <td class="title_tb_compras_status"><p>{{compra.status}}</p></td>
+                        <td class="title_tb_compras_data"><p>{{compra.data|date:"d/m/Y"}}</p></td>
+                        <td class="title_tb_compras_form">
+                        	<form id="id_form_presentear_{{compra.id}}" action="/presentear/{{compra.id}}/" method="POST">
+                            	<p class="presenteado_p" id="alertpresenteado" style="display:none;">&nbsp;</p>
+                            	<input id="id_nome_presenteado" class="presenteado" type="text" name="presenteado" value="{{compra.presenteado}}" />
+                            	<input class="gift" type="submit" value="OK" />
+                            </form>
+                        </td>
+                        <td class="title_tb_compras_data"><p>{{compra.oferta.data_liberacao_cupom|date:"d/m/Y"}}</p></td>
+                        <td class="title_tb_compras_vercupom">
+                        	<a class="view" target="_blank" {% if compra.oferta.get_autoriza_cupom %} href="{{site}}{{compra.get_cupom_url}}" {% endif %}><img src="{{MEDIA_URL}}img/print.png" alt="On" /></a>
+                        </td>                    
+                    </tr>
+                	{% endifequal %}
+                {% endfor %}
+            </table>
+        </div>
+        {% else %}
+        <p>Voc&ecirc; ainda n&atilde;o possui compras feitas no site.</p>
+        <!--<b>{{compra.get_senha_cupom}}</b><br/><b>{{compra.get_contrasenha_cupom}}</b>-->
+        {% endif %}
+       
+       <a href="/modoz/">Voltar para oferta do dia</a>
+    </div>
+    <div class="clr">&nbsp;</div>
+    <ul class="entenda">
+        <li><img src="{{MEDIA_URL}}img/ico-submenu-descontosrotativos.png" /><label>Todos os dias voc&ecirc; confere descontos de 50% a 90%</label></li>
+        <li><img src="{{MEDIA_URL}}img/ico-submenu-add.png" /><label>Voc&ecirc; adere a promo&ccedil;&atilde;o.</label></li>
+        <li><img src="{{MEDIA_URL}}img/ico-submenu-addamigos.png" /><label>Convide seus amigos para aderir a promo&ccedil;&atilde;o.</label></li>
+        <li><img src="{{MEDIA_URL}}img/ico-submenu-sorteio.png" /><label>Atingindo o n&uacute;mero m&iacute;nimo a oferta &eacute; ativada.</label></li>
+    </ul>
+    <div class="sidebar grid_4 omega">       	    
+    {% if clientes %}
+        <div class="clientesparceiros">
+            <img class="title" src="{{MEDIA_URL}}img/title-clientesparceiros.png" />
+            <img class="fl" src="{{MEDIA_URL}}img/bg-divs-white-up.png" />
+            <ul class="area" id="clientes_slideshow">
+             {% for cliente in clientes %}
+                <li><a {% if cliente.site %} title="{{cliente.nome}}" href="{{cliente.site}}" {% endif %}><img src="{{MEDIA_URL}}{{cliente.imagem}}" /></a></li>
+            {% endfor %}
+            </ul>
+            <img class="fl" src="{{MEDIA_URL}}img/bg-divs-white-bottom.png">
+        </div>
+        <div class="clr">&nbsp;</div>
+    {% endif %}  
+    </div>
+</div>	
+{% endblock %}

@@ -1,0 +1,21 @@
+@charset "utf-8";
+
+html, body	 { height:100% !important; margin:0 !important; padding:0 !important; width:100% !important; }
+body         {  }
+
+.homeAluno   { margin:0 auto; width:800px; }
+.topo, .meio, .rodape  { width:100%; }
+.topo h1 { height:50px; margin:0; padding:0; text-align: center; }
+
+
+/* LEFTBAR */
+.leftbar      { float:left; margin:0; width:25%; }
+.leftbar .dados-aluno { height:150px;  width:100%; }
+.leftbar .dados-aluno ul { list-style: none; margin:0; padding:0; width:100%; }
+.leftbar .dados-aluno ul li { margin:0; padding:0; }
+.leftbar .alerta-pirataria { height:150px;  width:100%; }
+
+.meio .video      {float: right; height:316px; width:75%; }
+.rodape .msg {  float:left; height:50px; width:100%; }
+
+.rodape .cursos { clear:left; float:left;  height:100px; width:100%; }
