@@ -127,7 +127,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
 
-    #'modoz.modulos.grappelli',
+    'modoz.modulos.grappelli',
     'modoz.modulos.educacional',
     'modoz.modulos.pessoal',
     'modoz.modulos.institucional',
