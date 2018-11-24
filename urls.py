@@ -73,5 +73,10 @@ urlpatterns = patterns('',
     #exercicio
     (r'^exercicio', 'modoz.views.exercicio'),
 
+    (r'^login/$', 'django.contrib.auth.views.login',{}, 'entrar'),
+    (r'^logout/$', 'django.contrib.auth.views.logout',{'template_name': 'logout_simples.html'}, 'sair'),
+    #(r'^esqueceu_sua_senha/$', 'modoz.modulos.cadastros.views.esqueceusuasenha_view'),
+
+
 
 )

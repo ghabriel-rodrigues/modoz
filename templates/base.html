@@ -2,37 +2,49 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="content-Type" content="text/html; charset=utf-8" />
-<title>MODOZERO</title>
+<title>{% block titulo %}{% endblock %}</title>
 
-<link rel="stylesheet" type="text/css" media="screen, projection" href="{{MEDIA_URL}}css/style.css" />
-
+<link rel="stylesheet" type="text/css" media="screen, projection" href="{{MEDIA_URL}}css/styles.css" />
 <script type="text/javascript" src="{{MEDIA_URL}}js/jquery-3.3.1.min.js" charset="utf-8"></script>
 
 {% block extrahead %}{% endblock %}
 
 </head>
 <body>
-	<div class="homeAluno">
-		<div class='topo'><h1>SEJA BEM VINDO À MODOZERO TECNOLOGIA</h1></div>
-		<div class='meio'>
-			<div class='leftbar'>
-				<div class='dados-aluno'>
-					<ul>
-						<li>Nome do aluno</li>
-						<li>CPF</li>
-						<li>Data e hora</li>
-					</ul>
-				</div>
-				<div class='alerta-pirataria'>
-					<p>Proibido pirataria</p>
-				</div>
-			</div>
-			<div class="video">video</div>
+	<div id="header-ead">
+		<span class="logo"><img src="{{MEDIA_URL}}imgs/logo.png"></span>
+		<span class="menu">
+			<a href="#"><img src="{{MEDIA_URL}}imgs/icon-04.png">inicio</a>
+			<a href="#"><img src="{{MEDIA_URL}}imgs/icon-03.png">editar dados</a>
+			<a href="#"><img src="{{MEDIA_URL}}imgs/icon-02.png">meus cursos</a>
+			<a href="#"><img src="{{MEDIA_URL}}imgs/icon-01.png">cancelar matricula</a>
+		</span>
+		<span class="direitos-pira">
+			<img src="{{MEDIA_URL}}imgs/iconfinder_exclamation_11069.png">
+			Texto alertando sobre pirataria.
+		</span>
+	</div>
+	<div id="meio-ead">
+		<div id="box-cli">
+			<span class="avatar-icon"><img src="{{MEDIA_URL}}imgs/no-img.png"></span>
+			<span class="box-info">
+				<span class="name-alun">Aluno teste</span>
+				<span class="info-more">00000001 </span>
+				<span class="info-more">cpf : 000.000.000-0</span>
+			</span>
 		</div>
-		<div class="rodape">
-			<div class="msg">dasdasda</div>
-			<div class="cursos">dadas	</div>
+		<div id="box-cli-02">
+			<!-- <span class="btn-right-top"><img src="{{MEDIA_URL}}imgs/trocar-user-btn.png"> trocar usuário</span> -->
+			<span class="btn-right-top"><a href="/logout/"><img src="{{MEDIA_URL}}imgs/sair-btn.png"> sair</a></span>
 		</div>
+		{% block conteudo %}{% endblock %}
+	</div>
+	<div id="footer">
+		<span class="direitos-end">Todos os direitos reservados Modo Zero - 2018</span>
+		<span class="redes">
+			<a href="#"><img src="{{MEDIA_URL}}imgs/facebook-icon.png"></a>
+			<a href="#"><img src="{{MEDIA_URL}}imgs/twitter-icon.png"></a>
+		</span>
 	</div>
 </body>
 </html>

@@ -1,91 +1,49 @@
-{% extends "base.html" %}
-{% block extrahead %}
-<script type="text/javascript" src="{{MEDIA_URL}}js/jquery-maskedinput.js" ></script>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-Type" content="text/html; charset=utf-8" />
+<title>{% block titulo %}{% endblock %}</title>
 
+<link rel="stylesheet" type="text/css" media="screen, projection" href="{{MEDIA_URL}}css/styles.css" />
+<script type="text/javascript" src="{{MEDIA_URL}}js/jquery-3.3.1.min.js" charset="utf-8"></script>
 
-<script type="text/javascript" language="javascript">		
-	//Mascaras para o formulario - jquery-maskedinput.js
-	$(document).ready(function(){
-		$("#id_telefone").mask("(99) 9999-9999");			
-		$("#id_nascimento").mask("99/99/9999");
-		$("#id_cpf").mask("999.999.999-99");				
-		
-		$('#clientes_slideshow').cycle({
-			fx: 'scrollDown',
-			delay:2000,
-			speed:1000
-		});
-		$('#iframe').fancybox();
-	});
-</script>
-{% endblock %}
-{% block conteudo %}
-<div class="grid_12 alpha">
-	<div class="pessoal grid_8 alpha">
-        <h2 class="subtitle grid_8 alpha">Fa&ccedil;a seu Login</h2>
-        <div class="clr">&nbsp;</div>
-        
-            {% if form.errors %}
-            <p>Seu EMAIL e sua SENHA n&atilde;o conferem. Por favor tente novamente.</p>
+{% block extrahead %}{% endblock %}
+
+</head>
+<body>
+	<div id="meio-ead2">
+		<div class="conteudo">
+			<div class="topo">
+				<img src="{{MEDIA_URL}}imgs/logo.png">
+			</div>
+			<div class="meio">
+				{% if form.errors %}
+            <p>Seu EMAIL ou sua SENHA n&atilde;o conferem. Por favor tente novamente.</p>
             {% endif %}
-            <form id="id_form_pessoal" action="{% url django.contrib.auth.views.login %}" method="POST">
-                <fieldset>
-                    {{ form.username.errors }}
-                    <label>Email</label>
-                    <div class="ipt_medio">
-                        <img src="{{MEDIA_URL}}img/ico-input-bordleft-white.png" />
-                        {{ form.username }}
-                        <img src="{{MEDIA_URL}}img/ico-input-bordright-white.png" />
-                    </div>
-                </fieldset>
-                <fieldset>
-                    {{ form.password.errors }}
-                    <label>Senha</label>
-                    <div class="ipt_medio">
-                        <img src="{{MEDIA_URL}}img/ico-input-bordleft-white.png" />
-                        <input type="password" name="password" id="id_password" />
-                        <img src="{{MEDIA_URL}}img/ico-input-bordright-white.png" />
-                    </div>
-                </fieldset>
-                <fieldset><p class="ui-state-highlight ui-corner-all" style="display:none;" id="alertpessoal">&nbsp;</p></fieldset>
+				<br/>
+            <form id="id_form_cadastro" action="{% url django.contrib.auth.views.login %}" method="POST">
+					{{ form.username.errors }}
+					<label>Email</label>
+					{{ form.username }}
+					<br/><br/>
+					{{ form.password.errors }}
+					<label>Senha</label>
+					{{ form.password }}
                 <input type="hidden" name="next" value="{{ next }}" />
-                <fieldset class="submitline"><a class="ui-state-highlight ui-corner-all esqueceusenha fl" id="iframe" href="/modoz/esqueceu_sua_senha/">Esqueceu sua senha ?</a><input class="submit" type="submit" value="logar" /></fieldset>
+					 <br/><br/>
+					<a class="ui-state-highlight ui-corner-all esqueceusenha fl" id=""
+					href="/esqueceu_sua_senha/">Esqueceu sua senha?</a>
+					<input class="submit" type="submit" value="logar" />
             </form>
-        </div>
-        <div class="sidebar grid_4 omega">       	    
-            {% if clientes %}
-                <div class="clientesparceiros">
-                    <img class="title" src="{{MEDIA_URL}}img/title-clientesparceiros.png" />
-                    <img class="fl" src="{{MEDIA_URL}}img/bg-divs-white-up.png" />
-                    <ul class="area" id="clientes_slideshow">
-                     {% for cliente in clientes %}
-                        <li><a {% if cliente.site %} title="{{cliente.nome}}" href="{{cliente.site}}" {% endif %}><img src="{{MEDIA_URL}}{{cliente.imagem}}" /></a></li>
-                    {% endfor %}
-                    </ul>
-                    <img class="fl" src="{{MEDIA_URL}}img/bg-divs-white-bottom.png">
-                </div>
-                <div class="clr">&nbsp;</div>
-            {% endif %} 
-            <div class="twitter">
-                <img src="{{MEDIA_URL}}img/ico-twitter.png"/>
-                <label>Siga-nos em <a href="http://www.twitter.com/modoz">@modoz</a></label>
-                <img class="fl" src="{{MEDIA_URL}}img/bg-divs-white-up.png" />
-                <ul id="tweets"><li><img src="http://a1.twimg.com/profile_images/1128401397/Twitter_normal.jpg"><a href="http://www.twitter.com/modoz" class="tit">modoz</a><p>n&atilde;o perca tempo, cadastre agora mesmo em nosso site e fique por dentro de todas as promo&ccedil;&otilde;es da sua cidade. www.modoz.com.br</p></li></ul>
-                <img class="fl" src="{{MEDIA_URL}}img/bg-divs-white-bottom.png" />
-            </div>   
-            <div class="clr">&nbsp;</div>         
-            <div class="opiniao">
-                <img class="fl" src="{{MEDIA_URL}}img/bg-divs-white-sugira-up.png" />
-                <label>Sua opini&atilde;o &eacute; importante para n&oacute;s</label>
-                <label id="alertopiniao" style="display:none;">&nbsp;</label>
-                <form id="id_form_opiniao" action="/modoz/opiniao/" method="POST">
-                    <img class="fl" src="{{MEDIA_URL}}img/ico-input-bordleft.png" />	
-                    <input id="id_texto" class="input" type="text" value="Escreva aqui" name="texto" />
-                    <img class="fl" src="{{MEDIA_URL}}img/ico-input-bordright.png" />	
-                    <input class="enviar" type="submit" value="OK!"/>
-                </form>
-                <img class="fl" src="{{MEDIA_URL}}img/bg-divs-white-sugira-bottom.png" />
-            </div>    
-        </div>
-    </div>
-{% endblock %}
+			</div>
+		</div>
+	</div>
+	<div id="footer2">
+		<span class="direitos-end">Todos os direitos reservados Modo Zero - 2018</span>
+		<span class="redes">
+			<a href="#"><img src="{{MEDIA_URL}}imgs/facebook-icon.png"></a>
+			<a href="#"><img src="{{MEDIA_URL}}imgs/twitter-icon.png"></a>
+		</span>
+	</div>
+</body>
+</html>

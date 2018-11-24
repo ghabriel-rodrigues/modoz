@@ -3,6 +3,7 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.files import File
@@ -22,8 +23,9 @@ def home_view(request):
     return render_to_response(
         'home.html', locals(), context_instance=RequestContext(request),)
 
+@login_required
 def index(request):
-    return render_to_response('base.html', locals(), context_instance=RequestContext(request),)
+    return render_to_response('index.html', locals(), context_instance=RequestContext(request),)
 
 def curso(request):
     return render_to_response('curso.html', locals(), context_instance=RequestContext(request),)
