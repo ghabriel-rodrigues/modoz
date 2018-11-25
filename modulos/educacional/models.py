@@ -146,7 +146,7 @@ class Aula(models.Model):
     tema = models.ForeignKey(Tema, blank=True, null=True)
     titulo = models.CharField("Titulo", max_length = 255, blank = True, null = True, help_text = "")
     descricao = models.TextField("Descricao", blank = True, null = True, help_text = "")
-    urlYoutube = models.URLField(u"Url do video", max_length=150, blank=True, null=True,help_text = u"Insira a URL do video da aula.")
+    urlYoutube = models.CharField(u"Url do video", max_length=150, blank=True, null=True,help_text = u"Insira a URL do video da aula.")
     anexos = models.FileField(upload_to='aulas', blank = True, null = True)
     exercicios = models.ManyToManyField(Exercicio, related_name="aula_exercicio", verbose_name = "Exercicios", blank = True, null = True)
     dataCadastro = models.DateTimeField(auto_now_add = True, blank = True, null = True)
