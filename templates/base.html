@@ -21,26 +21,26 @@
 		</span>
 		<span class="direitos-pira">
 			<img src="{{MEDIA_URL}}imgs/iconfinder_exclamation_11069.png">
-			Texto alertando sobre pirataria.
+			{% block textoPirataria %}{% endblock %}
 		</span>
 	</div>
 	<div id="meio-ead">
 		<div id="box-cli">
 			<span class="avatar-icon"><img src="{{MEDIA_URL}}imgs/no-img.png"></span>
 			<span class="box-info">
-				<span class="name-alun">Aluno teste</span>
-				<span class="info-more">00000001 </span>
-				<span class="info-more">cpf : 000.000.000-0</span>
+				<span class="name-alun">{% block alunoNome %}{% endblock %}</span>
+				<span class="info-more">{% block alunoID %}{% endblock %} </span>
+				<span class="info-more">CPF: {% block alunoCPF %}{% endblock %}</span>
 			</span>
 		</div>
 		<div id="box-cli-02">
 			<!-- <span class="btn-right-top"><img src="{{MEDIA_URL}}imgs/trocar-user-btn.png"> trocar usuário</span> -->
-			<span class="btn-right-top"><a href="/logout/"><img src="{{MEDIA_URL}}imgs/sair-btn.png"> sair</a></span>
+			<span class="btn-right-top"><a href="{% if online %}/modoz/{%endif%}/logout/"><img src="{{MEDIA_URL}}imgs/sair-btn.png"> Sair</a></span>
 		</div>
 		{% block conteudo %}{% endblock %}
 	</div>
 	<div id="footer">
-		<span class="direitos-end">Todos os direitos reservados Modo Zero - 2018</span>
+		<span class="direitos-end">Todos os direitos reservados Modo Zero - {% now "Y" as current_year %}</span>
 		<span class="redes">
 			<a href="#"><img src="{{MEDIA_URL}}imgs/facebook-icon.png"></a>
 			<a href="#"><img src="{{MEDIA_URL}}imgs/twitter-icon.png"></a>

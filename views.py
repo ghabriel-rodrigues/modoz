@@ -10,6 +10,7 @@ from django.core.files import File
 from django.core.mail import EmailMultiAlternatives, send_mail
 
 from modoz.modulos.institucional.models import TelaInicialDoAluno
+from modoz.modulos.pessoal.models import Matricula
 
 from django import forms
 
@@ -25,7 +26,37 @@ def home_view(request):
 
 @login_required
 def index(request):
+    telaInicialDoAluno = TelaInicialDoAluno.objects.get(id=1)
+    #matricula = Matricula.objects.get(id=1)
+    usuario = request.user
+    matricula = Matricula.objects.get(aluno__email__exact=usuario.email)
     return render_to_response('index.html', locals(), context_instance=RequestContext(request),)
+
+def esqueceusuasenha_view(request):
+    erro = False
+
+    if request.method == 'POST':
+        try:
+            cadastro = User.objects.get(username__exact=request.POST['email_contato'])
+            nova_senha = random.randint(234567,98765432)
+            cadastro.set_password(nova_senha)
+            cadastro.save()
+            subject, from_email, to = 'MODOZERO - Envio de nova senha', 'informativo@modozero.com.br', cadastro.email
+            text_content = """
+            Detectamos que voce solicitou uma NOVA SENHA: %s \n
+            Por favor altere a senha por uma de sua preferencia.\nEnvio de email automatico, nao responda. """ % (str(nova_senha))
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+
+            try:
+                msg.send()
+
+            except Exception :
+                pass
+        except:
+            erro = True
+
+    variaveis = RequestContext(request, {"erro":erro})
+    return render_to_response('password_reset.html', variaveis)
 
 def curso(request):
     return render_to_response('curso.html', locals(), context_instance=RequestContext(request),)

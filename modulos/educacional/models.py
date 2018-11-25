@@ -122,7 +122,7 @@ class Exercicio(models.Model):
     tema = models.ForeignKey(Tema,blank=True, null=True)
     titulo = models.CharField("Titulo", max_length = 255, blank = True, null = True, help_text = "")
     descricao = models.TextField("Descricao", blank = True, null = True, help_text = "")
-    questoes = models.ManyToManyField(Questao, related_name="exercicio_questao", verbose_name = "Alternativas", blank = True, null = True)
+    questoes = models.ManyToManyField(Questao, related_name="exercicio_questao", verbose_name = "Questões", blank = True, null = True)
     aprovarCom75 = models.BooleanField("Aprovar com 75%", blank = True)
     totalQuestoes = models.PositiveIntegerField(verbose_name='Criterio de Aprovação',help_text="Quantidade total de questões corretas necessárias para aprovação:", blank=True, null=True)
 
@@ -133,10 +133,10 @@ class Exercicio(models.Model):
         verbose_name_plural = u"Exercicios"
 
     def __str__(self) :
-        return "%s - %s" % (self.id, self.tema)
+        return "%s - %s" % (self.tema, self.titulo)
 
     def __unicode__(self) :
-        return "%s - %s" % (self.id, self.tema)
+        return "%s - %s" % (self.tema, self.titulo)
 
     def getClass(self) :
         return "Exercicio"
@@ -146,6 +146,7 @@ class Aula(models.Model):
     tema = models.ForeignKey(Tema, blank=True, null=True)
     titulo = models.CharField("Titulo", max_length = 255, blank = True, null = True, help_text = "")
     descricao = models.TextField("Descricao", blank = True, null = True, help_text = "")
+    urlYoutube = models.URLField(u"Url do video", max_length=150, blank=True, null=True,help_text = u"Insira a URL do video da aula.")
     anexos = models.FileField(upload_to='aulas', blank = True, null = True)
     exercicios = models.ManyToManyField(Exercicio, related_name="aula_exercicio", verbose_name = "Exercicios", blank = True, null = True)
     dataCadastro = models.DateTimeField(auto_now_add = True, blank = True, null = True)
