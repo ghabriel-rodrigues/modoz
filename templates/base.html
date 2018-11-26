@@ -14,10 +14,10 @@
 	<div id="header-ead">
 		<span class="logo"><img src="{{MEDIA_URL}}imgs/logo.png"></span>
 		<span class="menu">
-			<a href="/modoz/"><img src="{{MEDIA_URL}}imgs/icon-04.png">inicio</a>
-			<a href="/modoz/alterar_dados/"><img src="{{MEDIA_URL}}imgs/icon-03.png">editar dados</a>
-			<a href="/modoz/curso/"><img src="{{MEDIA_URL}}imgs/icon-02.png">meus cursos</a>
-			<a href="/modoz/cancelar_matricula/"><img src="{{MEDIA_URL}}imgs/icon-01.png">cancelar matricula</a>
+			<a href="{%if online%}/modoz{%endif %}/"><img src="{{MEDIA_URL}}imgs/icon-04.png">inicio</a>
+			<a href="{%if online%}/modoz{%endif %}/alterar_dados/"><img src="{{MEDIA_URL}}imgs/icon-03.png">editar dados</a>
+			<a href="{%if online%}/modoz{%endif %}/curso/"><img src="{{MEDIA_URL}}imgs/icon-02.png">meus cursos</a>
+			<a href="{%if online%}/modoz{%endif %}/cancelar_matricula/"><img src="{{MEDIA_URL}}imgs/icon-01.png">cancelar matricula</a>
 		</span>
 		<span class="direitos-pira">
 			<img src="{{MEDIA_URL}}imgs/iconfinder_exclamation_11069.png">
@@ -35,7 +35,7 @@
 		</div>
 		<div id="box-cli-02">
 			<!-- <span class="btn-right-top"><img src="{{MEDIA_URL}}imgs/trocar-user-btn.png"> trocar usuário</span> -->
-			<span class="btn-right-top"><a href="/logout/"><img src="{{MEDIA_URL}}imgs/sair-btn.png"> Sair</a></span>
+			<span class="btn-right-top"><a href="{%if online%}/modoz{%endif %}/logout/"><img src="{{MEDIA_URL}}imgs/sair-btn.png"> Sair</a></span>
 		</div>
 		{% block conteudo %}{% endblock %}
 	</div>
