@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block titulo %}Aula{% endblock %}
+{% block extrahead %}
+{% endblock %}
+
+{% block alunoNome %}{{matricula.aluno.nome}}{% endblock %}
+{% block alunoID %}{{matricula.numero}}{% endblock %}
+{% block alunoCPF %}{{matricula.aluno.cpf}}{% endblock %}
+{% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
+
+{% block conteudo %}
+      <h2 class="topspace">{{aula.titulo}}</h2>
+		<div class='cronograma'>
+			<p>Tema: {{aula.titulo}}</p>
+			<ul>
+				<li>{{ aula.titulo|safe }}</li>
+            <li>{{ aula.descricao|safe }}</li>
+            <li>
+               <iframe
+                  width="940" height="380"
+                  src="{{aula.urlYoutube}}"
+                  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen>
+               </iframe>
+            </li>
+            <li>{{ aula.anexos }}</li>
+            <li>
+               {% for exercicio in aula.exercicios.all %}
+                     <span>{{ exercicio.titulo|safe }}</span>
+                     <ol>
+                     {% for questao in exercicio.questoes.all %}
+                     <li>
+                        <span>{{questao.pergunta|safe}}</span>
+                        <ol>
+                           {% for alternativa in questao.alternativas.all %}
+                           <li>
+                              <span>{{alternativa.enunciado|safe}}</span><input name="{{alternativa.id}}" type="radio" />
+                           </li>
+                           {% endfor %}
+                        </ol>
+                     </li>
+                     {% endfor %}
+                  </ol>
+               {%endfor%}
+            </li>
+			</ul>
+		</div>
+{% endblock conteudo %}

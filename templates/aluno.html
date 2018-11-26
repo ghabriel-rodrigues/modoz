@@ -1,44 +1,58 @@
 {% extends "base.html" %}
-{% load i18n %}
-{% block titulo %}Altere suas informa&ccedil;&otilde;es{% endblock %}
-{% block extrahead %}
-{% endblock %}
-
+{% block titulo %}Editar Dados{% endblock %}
 {% block alunoNome %}{{matricula.aluno.nome}}{% endblock %}
 {% block alunoID %}{{matricula.numero}}{% endblock %}
 {% block alunoCPF %}{{matricula.aluno.cpf}}{% endblock %}
-{% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
-
 {% block conteudo %}
-      <h2 class="topspace subtitle grid_8 alpha">Altere suas informa&ccedil;&otilde;es</h2>
-
-		<form id="id_form_alterardados" action="{%if online%}/modoz{% endif %}/alterar_dados/" method="POST">
+      <form class="topspace" id="id_form_cadastro" action="/cadastro/" method="POST">
         	<fieldset>
             	{{ form.nome.errors }}
             	<label>Nome</label>
                 <div class="ipt_grande">
-                	<input id="id_nome" name="nome" type="text" value="{{aluno.nome}}"/>
+                	{{ form.nome }}
                 </div>
             </fieldset>
             <fieldset>
             	{{ form.endereco.errors }}
             	<label>Endere&ccedil;o</label>
                 <div class="ipt_grande">
-                <input id="id_endereco" name="endereco" class="ipt_grande" type="text" value="{{aluno.endereco}}"/>
+                {{ form.endereco }}
                 </div>
             </fieldset>
             <fieldset>
             	{{ form.telefone.errors }}
             	<label>Celular</label>
                 <div class="ipt_medio">
-                <input id="id_telefone" name="telefone" class="ipt_medio" type="text" value="{{aluno.telefone}}"/>
- 			 		 </div>
+                {{ form.telefone }}
+                </div>
+            </fieldset>
+            <fieldset>
+            	{{ form.email.errors }}
+            	<label>Email</label>
+                <div class="ipt_medio">
+                <input id="id_email" name="email" class="ipt_medio" type="text" maxlength="30"/>
+                </div>
+            </fieldset>
+            <fieldset>
+            	{{ form.cpf.errors }}
+            	<label>CPF</label>
+                <div class="ipt_medio">
+                {{ form.cpf }}
+                </div>
+            </fieldset>
+
+            <fieldset>
+            	{{ form.nascimento.errors }}
+            	<label>Nascimento</label>
+                <div class="ipt_pequeno">
+                    {{ form.nascimento }}
+                </div>
             </fieldset>
             <fieldset>
             	{{ form.sexo.errors }}
             	<label>Sexo</label>
                 <div>
-                	{{ form.sexo }}
+                	{{form.sexo}}
                 </div>
             </fieldset>
             <fieldset>
@@ -49,15 +63,13 @@
                 </div>
             </fieldset>
             <fieldset>
-            	{{ form.confirme.errors }}
-            	<label>Confirme sua senha</label>
-                <div>
-                {{form.confirme}}
-
-                </div>
+               {{ form.confirme.errors }}
+               <label>Confirme sua Senha</label>
+            	<div>
+            	{{form.confirme}}
+               </div>
             </fieldset>
-
-            <fieldset><p class="ui-state-highlight ui-corner-all" style="display:none;" id="alertpessoal">&nbsp;</p></fieldset>
             <fieldset class="submitline"><input class="submit" type="submit" value="enviar" /></fieldset>
         </form>
-{% endblock conteudo %}
+
+{% endblock %}

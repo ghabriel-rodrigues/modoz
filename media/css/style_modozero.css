@@ -11,7 +11,7 @@
 input, select, textarea{
 
 	border-radius:03px;
-	width:100%;
+	width:50%;
 	padding:02% 03%;
 	background:#ffffff;
 	border:1px solid #2c2c2c;
@@ -22,7 +22,7 @@ input, select, textarea{
 submit, button, input[type="submit"], input[type="button"] {
 
 	border-radius:03px;
-	width:100%;
+	width:50%;
 	padding:02% 03%;
 	background:#2884c4;
 	border:1px solid #2884c4;
@@ -69,6 +69,17 @@ body{
 	font-family:myriadproregular;
 	color:#2884c4;
 
+	}
+
+	.topspace {
+		padding-top:30px;
+	}
+
+	fieldset {
+		border: none;
+	}
+	.submit {
+		width:50%;
 	}
 
 #header-ead{

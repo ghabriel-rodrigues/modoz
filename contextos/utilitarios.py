@@ -5,6 +5,11 @@ import os
 def utilidades(request):
     site = None
     online = True
+    usuario = None
+    try:
+        usuario = request.user
+    except:
+        pass
 
     myhost = os.uname()[1]
     if myhost == 'ghabriel-pc':
@@ -13,4 +18,4 @@ def utilidades(request):
     else:
         site = 'devpublicon.kinghost.net/modoz'
 
-    return {'site':site, 'online':online}
+    return {'site':site, 'online':online, 'usuario': usuario}

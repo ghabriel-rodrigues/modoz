@@ -23,17 +23,23 @@
 				<br/>
             <form id="id_form_cadastro" action="{% url django.contrib.auth.views.login %}" method="POST">
 					{{ form.username.errors }}
-					<label>Email</label>
+					<label>Username</label>
+					<div>
 					{{ form.username }}
+					</div>
 					<br/><br/>
 					{{ form.password.errors }}
 					<label>Senha</label>
+					<div>
 					{{ form.password }}
+					</div>
                 <input type="hidden" name="next" value="{{ next }}" />
 					 <br/><br/>
 					<a class="ui-state-highlight ui-corner-all esqueceusenha fl" id=""
 					href="/esqueceu_sua_senha/">Esqueceu sua senha?</a>
+					<div>
 					<input class="submit" type="submit" value="logar" />
+					</div>
             </form>
 			</div>
 		</div>

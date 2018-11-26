@@ -5,6 +5,7 @@
 {% block alunoNome %}{{matricula.aluno.nome}}{% endblock %}
 {% block alunoID %}{{matricula.numero}}{% endblock %}
 {% block alunoCPF %}{{matricula.aluno.cpf}}{% endblock %}
+{% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
 {% block conteudo %}
 <div id="video-espli">
    <span class="title-big">{{telaInicialDoAluno.titulo}}</span>
@@ -27,11 +28,11 @@
       <a href="#">Não iniciados</a>
       <a href="#">Finalizados</a>
    </span>
-   <span class="content-curs">   
-      <span class="video-thumb"><img src="https://img.youtube.com/vi/Zi_XLOBDo_Y/mqdefault.jpg"></span>
+   <span class="content-curs">
+      <!-- <span class="video-thumb"><img src="https://img.youtube.com/vi/Zi_XLOBDo_Y/mqdefault.jpg"></span> -->
       <span class="box-info-cur-fa">
          <span class="title-fa-cu">{{matricula.curso.titulo}}</span>
-         <span class="info-title-cu">{{aula.urlYoutube}} = Horas: 00:00 / Estatus: Em andamento</span>
+         <span class="info-title-cu">Horas: 00:00 / Estatus: Em andamento</span>
          <span class="content-text-cu">
             {{matricula.curso.descricao|safe}}
          </span>
@@ -39,4 +40,3 @@
    </span>
 </div>
 {% endblock %}
-{% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}

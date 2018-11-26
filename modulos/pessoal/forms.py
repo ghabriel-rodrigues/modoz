@@ -92,34 +92,17 @@ class FormAluno(ModelForm):
             raise forms.ValidationError('Ja existe um usuario cadastrado com este LOGIN')
         return self.cleaned_data['username']
 
-    def clean_telefone(self):
-        num = self.cleaned_data['telefone'][5:6]
-        if num != "6" and num != "7" and num != "8" and num != "9":
-            raise forms.ValidationError('Por favor insira um numero de celular valido')
-            #raise forms.ValidationError(self.cleaned_data['telefone'][5:6])
-        return self.cleaned_data['telefone']
-
-    #def clean_nascimento(self):
-    #    if int(self.cleaned_data['nascimento'].day) <= 0 or int(self.cleaned_data['nascimento'].day) > 31 :
-    #        raise forms.ValidationError('Informe uma data de nascimento valida - Erro no dia informado')
-    #
-    #    if int(self.cleaned_data['nascimento'].month) <= 0 or int(self.cleaned_data['nascimento'].month) > 12 :
-    #        raise forms.ValidationError('Informe uma data de nascimento valida - Erro no mes informado')
-    #
-    #    if int(self.cleaned_data['nascimento'].year) <= 1900 or int(self.cleaned_data['nascimento'].year) >= 1992  :
-    #        raise forms.ValidationError('Informe uma data de nascimento valida - Erro no ano informado')
-    #
-    #    return self.cleaned_data['nascimento']
+    # def clean_telefone(self):
+    #     num = self.cleaned_data['telefone'][5:6]
+    #     if num != "6" and num != "7" and num != "8" and num != "9":
+    #         raise forms.ValidationError('Por favor insira um numero de celular valido')
+    #         #raise forms.ValidationError(self.cleaned_data['telefone'][5:6])
+    #     return self.cleaned_data['telefone']
 
     def clean_email(self):
         if User.objects.filter(email=self.cleaned_data['email'],).count():
             raise forms.ValidationError('Ja existe um usuario cadastrado com este EMAIL')
         return self.cleaned_data['email']
-
-    #def clean_rg(self):
-    #    if Aluno.objects.filter(rg=self.cleaned_data['rg'],).count():
-    #        raise forms.ValidationError('Ja existe um usuario cadastrado com este RG')
-    #    return self.cleaned_data['rg']
 
     def clean_cpf(self):
         if Aluno.objects.filter(cpf=self.cleaned_data['cpf'],).count():

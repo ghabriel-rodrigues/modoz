@@ -3,21 +3,21 @@
 {% block titulo %} - Altere suas informa&ccedil;&otilde;es{% endblock %}
 {% block extrahead %}
 <script type="text/javascript" src="{{MEDIA_URL}}js/jquery-maskedinput.js" ></script>
-<link type="text/css" href="{{MEDIA_URL}}css/ui-lightness/jquery-ui-1.7.2.custom.css" rel="stylesheet" />	
+<link type="text/css" href="{{MEDIA_URL}}css/ui-lightness/jquery-ui-1.7.2.custom.css" rel="stylesheet" />
 <script type="text/javascript" src="{{MEDIA_URL}}js/jquery-ui-1.7.2.custom.min.js"></script>
 
-<script type="text/javascript" language="javascript">		
+<script type="text/javascript" language="javascript">
 	//Mascaras para o formulario - jquery-maskedinput.js
 	$(document).ready(function(){
-		$("#id_telefone").mask("(99) 9999-9999");			
+		$("#id_telefone").mask("(99) 9999-9999");
 		$("#id_nascimento").mask("99/99/9999");
 		$("#id_cpf").mask("999.999.999-99");
-		
-		$("#id_form_pessoal").bind("submit", function(){			
+
+		$("#id_form_pessoal").bind("submit", function(){
 			//enviarCadastro();
 			//return false;
-		});	
-		$("#id_form_opiniao").bind("submit", function(){			
+		});
+		$("#id_form_opiniao").bind("submit", function(){
 			enviarOpiniao();
 			return false;
 		});
@@ -27,19 +27,19 @@
 {% block conteudo %}
 <div class="grid_12 alpha">
 	<div class="pessoal grid_8 alpha">
-    	<h2 class="subtitle grid_8 alpha">Voc&ecirc; n&atilde;o est&aacute; mais logado no sistema.</h2>        
-        <a class="ui-state-highlight ui-corner-all" href="/">voltar para home do site</a>
+    	<h2 class="subtitle grid_8 alpha">Voc&ecirc; n&atilde;o est&aacute; mais logado no sistema.</h2>
+        <a class="ui-state-highlight ui-corner-all" href="/modoz">voltar para home do site</a>
     </div>
-    <div class="sidebar grid_4 omega">        
+    <div class="sidebar grid_4 omega">
         <a class="ganhe" href="#ganhe_dinheiro"><img src="{{MEDIA_URL}}img/ban-ganhe10reaisindicandoamigos.png" /></a>
         <div class="opiniao">
             <img class="fl" src="{{MEDIA_URL}}img/bg-divs-white-sugira-up.png" />
             <label>Sua opini&atilde;o &eacute; importante para n&oacute;s</label>
             <label id="alertopiniao" style="display:none;">&nbsp;</label>
             <form id="id_form_opiniao" action="/opiniao/" method="POST">
-                <img class="fl" src="{{MEDIA_URL}}img/ico-input-bordleft.png" />	
+                <img class="fl" src="{{MEDIA_URL}}img/ico-input-bordleft.png" />
                 <input id="id_texto" class="input" type="text" value="Escreva aqui" name="texto" />
-                <img class="fl" src="{{MEDIA_URL}}img/ico-input-bordright.png" />	
+                <img class="fl" src="{{MEDIA_URL}}img/ico-input-bordright.png" />
                 <input class="enviar" type="submit" value="OK!"/>
             </form>
             <img class="fl" src="{{MEDIA_URL}}img/bg-divs-white-sugira-bottom.png" />
@@ -69,6 +69,6 @@
             </ul>
             <img class="fl" src="{{MEDIA_URL}}img/bg-divs-white-bottom.png">
         </div>
-    </div>  
- </div>   
+    </div>
+ </div>
 {% endblock conteudo %}

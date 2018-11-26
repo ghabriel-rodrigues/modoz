@@ -1,48 +1,22 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="content-Type" content="text/html; charset=utf-8" />
-<title>MODOZERO</title>
+{% extends "base.html" %}
+{% load i18n %}
+{% block titulo %}Cursos{% endblock %}
+{% block extrahead %}
+{% endblock %}
 
-<link rel="stylesheet" type="text/css" media="screen, projection" href="{{MEDIA_URL}}css/style.css" />
+{% block alunoNome %}{{matricula.aluno.nome}}{% endblock %}
+{% block alunoID %}{{matricula.numero}}{% endblock %}
+{% block alunoCPF %}{{matricula.aluno.cpf}}{% endblock %}
+{% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
 
-<script type="text/javascript" src="{{MEDIA_URL}}js/jquery-3.3.1.min.js" charset="utf-8"></script>
-
-{% block extrahead %}{% endblock %}
-
-</head>
-<body>
-	<div class="homeAluno">
-		<div class='topo'><h1>NOME DO CURSO</h1></div>
-		<div class='meio'>
-			<div class='leftbar'>
-				<div class='dados-aluno'>
-					<ul>
-						<li>Nome do aluno</li>
-						<li>CPF</li>
-						<li>Data e hora</li>
-						<li>Validade do curso</li>
-						<li>Progresso do aluno</li>
-					</ul>
-				</div>
-				<div class='alerta-pirataria'>
-					<p>Cronograma</p>
-					<ul>
-						<li>Aula 1</li>
-						<li>Aula 2</li>
-						<li>Aula 3</li>
-						<li>Aula 4</li>
-						<li>Aula 5</li>
-						<li>Aula 6</li>
-					</ul>
-				</div>
-			</div>
-			<div class="video">video</div>
+{% block conteudo %}
+      <h2 class="topspace">{{matricula.curso.titulo}}</h2>
+		<div class='cronograma'>
+			<p>Cronograma</p>
+			<ul>
+				{% for aula in matricula.curso.aulas.all %}
+				<li><a href="{%if online%}/modoz{%endif%}/aula/{{aula.id}}">{{ aula.titulo }}</a></li>
+				{% endfor %}
+			</ul>
 		</div>
-		<div class="rodape">
-			<div class="msg">dasdasda</div>
-			<div class="cursos">dadas	</div>
-		</div>
-	</div>
-</body>
-</html>
+{% endblock conteudo %}

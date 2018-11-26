@@ -10,8 +10,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 
-from modoz.modulos.pessoal.forms import FormPessoal,FormAlterarDados
-from modoz.modulos.pessoal.models import Aluno
+from modoz.modulos.pessoal.forms import FormAluno,FormAlterarDados
+from modoz.modulos.pessoal.models import Aluno, Matricula
 
 from django.contrib.auth import logout
 
@@ -116,6 +116,8 @@ def alterardados_view(request):
 
     usuario = request.user
     aluno = Aluno.objects.get(email__exact=usuario.email)
+    matricula = Matricula.objects.get(aluno__email__exact=usuario.email)
+
 
     enviado = False
     form = FormAlterarDados()
@@ -147,7 +149,7 @@ def alterardados_view(request):
             enviado = True
 
     variaveis = RequestContext(request, {"form": form, "enviado":enviado,
-                                         "aluno":aluno,"cad_usuario":cad_usuario})
+                                         "aluno":aluno,"cad_usuario":cad_usuario, "matricula":matricula})
     return render_to_response('alterar_dados.html', variaveis)
 
 def esqueceusuasenha_view(request):
