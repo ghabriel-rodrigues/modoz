@@ -4,7 +4,7 @@
 <meta http-equiv="content-Type" content="text/html; charset=utf-8" />
 <title> Modozero - Logout</title>
 
-<link rel="stylesheet" type="text/css" media="screen, projection" href="{{MEDIA_URL}}css/styles.css" />
+<link rel="stylesheet" type="text/css" media="screen, projection" href="{{MEDIA_URL}}css/style_modozero.css" />
 <script type="text/javascript" src="{{MEDIA_URL}}js/jquery-3.3.1.min.js" charset="utf-8"></script>
 
 </head>
@@ -16,7 +16,7 @@
 			</div>
 			<div class="meio">
 				<h2 class="subtitle grid_8 alpha">Voc&ecirc; n&atilde;o est&aacute; mais logado no sistema.</h2>
-				<a class="ui-state-highlight ui-corner-all" href="/modoz/">voltar para home do site</a>
+				<a class="ui-state-highlight ui-corner-all" href="{%if online%}/modoz{%endif %}/">voltar para home do site</a>
 			</div>
 		</div>
 	</div>

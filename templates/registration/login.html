@@ -4,7 +4,7 @@
 <meta http-equiv="content-Type" content="text/html; charset=utf-8" />
 <title>{% block titulo %}{% endblock %}</title>
 
-<link rel="stylesheet" type="text/css" media="screen, projection" href="{{MEDIA_URL}}css/styles.css" />
+<link rel="stylesheet" type="text/css" media="screen, projection" href="{{MEDIA_URL}}css/style_modozero.css" />
 <script type="text/javascript" src="{{MEDIA_URL}}js/jquery-3.3.1.min.js" charset="utf-8"></script>
 
 {% block extrahead %}{% endblock %}
@@ -36,7 +36,7 @@
                 <input type="hidden" name="next" value="{{ next }}" />
 					 <br/><br/>
 					<a class="ui-state-highlight ui-corner-all esqueceusenha fl" id=""
-					href="/esqueceu_sua_senha/">Esqueceu sua senha?</a>
+					href="{%if online%}/modoz{%endif %}/esqueceu_sua_senha/">Esqueceu sua senha?</a>
 					<div>
 					<input class="submit" type="submit" value="logar" />
 					</div>
