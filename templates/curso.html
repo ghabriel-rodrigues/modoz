@@ -12,10 +12,10 @@
 {% block conteudo %}
       <h2 class="topspace">{{matricula.curso.titulo}}</h2>
 		<div class='cronograma'>
-			<p>Cronograma</p>
+			<p>Aulas (Cronograma)</p>
 			<ul>
 				{% for aula in matricula.curso.aulas.all %}
-				<li><a href="{%if online%}/modoz{%endif%}/aula/{{aula.id}}">{{ aula.titulo }}</a></li>
+				<li><a href="/modoz/aula/{{aula.id}}">{{ aula.titulo }}</a></li>
 				{% endfor %}
 			</ul>
 		</div>

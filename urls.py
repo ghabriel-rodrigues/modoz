@@ -64,23 +64,27 @@ urlpatterns = patterns('',
     (r'^grappelli/', include('modoz.modulos.grappelli.urls')),
     (r'^utils/', include('modoz.modulos.utils.urls')),
 
-    #home
-    (r'^$', 'modoz.views.index'),
+    (r'^modoz/aula/(?P<aulaid>[\w_-]+)/$', 'modoz.views.aula_view'),
 
     #home
-    (r'^curso', 'modoz.views.curso'),
+    (r'^modoz/curso', 'modoz.views.curso'),
 
     #exercicio
-    (r'^exercicio', 'modoz.views.exercicio'),
+    (r'^modoz/exercicio', 'modoz.views.exercicio'),
 
     #cadastro
-    (r'^aluno/', 'modoz.modulos.pessoal.views.aluno_view'),
-    (r'^alterar_dados/$', 'modoz.modulos.pessoal.views.alterardados_view',{}, 'alterar_dados'),
-    (r'^login/$', 'django.contrib.auth.views.login',{}, 'entrar'),
-    (r'^logout/$', 'django.contrib.auth.views.logout',{'template_name': 'logout_simples.html'}, 'sair'),
-    (r'^esqueceu_sua_senha/$', 'modoz.modulos.pessoal.views.esqueceusuasenha_view'),
+    (r'^modoz/aluno/', 'modoz.modulos.pessoal.views.aluno_view'),
+    (r'^modoz/alterar_dados/', 'modoz.modulos.pessoal.views.alterardados_view',{}, 'alterar_dados'),
+    (r'^modoz/login/$', 'django.contrib.auth.views.login',{}, 'entrar'),
+    (r'^modoz/logout/$', 'django.contrib.auth.views.logout',{'template_name': 'logout_simples.html'}, 'sair'),
+    (r'^modoz/esqueceu_sua_senha/$', 'modoz.modulos.pessoal.views.esqueceusuasenha_view'),
+
+
+    #home
+    (r'^modoz/', 'modoz.views.index'),
 
     # url(r'^(?P<ofertaslug>[\w_-]+)/$', 'oferta_view', name='oferta'),
-    url(r'^aula/(?P<aulaid>[\w_-]+)/$', 'modoz.views.aula_view', name='aula'),
+
+
 
 )
