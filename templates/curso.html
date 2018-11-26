@@ -15,7 +15,7 @@
 			<p>Aulas (Cronograma)</p>
 			<ul>
 				{% for aula in matricula.curso.aulas.all %}
-				<li><a href="/modoz/aula/{{aula.id}}">{{ aula.titulo }}</a></li>
+				<li><a href="/aula/{{aula.id}}">{{ aula.titulo }}</a></li>
 				{% endfor %}
 			</ul>
 		</div>
