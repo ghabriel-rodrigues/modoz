@@ -4,7 +4,7 @@
 @font-face{
 
 	font-family:myriadproregular;
-	src:url(/media/css/fonts/myriadproregular.otf);
+	src:url(../fonts/myriadproregular.otf);
 
 }
 
@@ -169,7 +169,7 @@ body{
 
 #meio-ead{
 
-	background:#ffffff url(/media/imgs/bg-meio-ead.png) 25% -05% repeat-x;
+	background:#ffffff url(../imgs/bg-meio-ead.png) 25% -05% repeat-x;
 	width:76%;
 	display:inline-block;
 	padding:02%;
@@ -182,7 +182,7 @@ body{
 	}
 	#meio-ead2{
 
-		background:#ffffff url(/media/imgs/bg-meio-ead.png) 25% -05% repeat-x;
+		background:#ffffff url(../imgs/bg-meio-ead.png) 25% -05% repeat-x;
 		width:100%;
 		display:inline-block;
 		padding:2% 0%;
@@ -252,7 +252,7 @@ body{
 
 .avatar-icon:before{
 
-	background:url('/media/imgs/moldura-avatar.png') no-repeat center center;
+	background:url('../imgs/moldura-avatar.png') no-repeat center center;
 	z-index: 99999;
 	position: relative;
 	display: inline-block;
@@ -408,7 +408,7 @@ body{
 .box-fast-btn a:after{
 
 	content:'.';
-	background:url(/media/imgs/arrwon-down.jpg) no-repeat center center;
+	background:url(../imgs/arrwon-down.jpg) no-repeat center center;
 	width: 10%;
 	display: inline-block;
 	margin: 0 03%;
