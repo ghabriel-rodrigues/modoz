@@ -4,7 +4,7 @@
 <meta http-equiv="content-Type" content="text/html; charset=utf-8" />
 <title>{% block titulo %}{% endblock %}</title>
 
-<link rel="stylesheet" type="text/css" media="screen, projection" href="{{MEDIA_URL}}css/stylemz.css" />
+<link rel="stylesheet" type="text/css" media="screen, projection" href="{{MEDIA_URL}}css/stylemz3.css" />
 <script type="text/javascript" src="{{MEDIA_URL}}js/jquery-3.3.1.min.js" charset="utf-8"></script>
 
 {% block extrahead %}{% endblock %}
@@ -17,6 +17,7 @@
 			<a href="{%if online%}/modoz{%endif %}/"><img src="{{MEDIA_URL}}imgs/icon-04.png">inicio</a>
 			<a href="{%if online%}/modoz{%endif %}/alterar_dados/"><img src="{{MEDIA_URL}}imgs/icon-03.png">editar dados</a>
 			<a href="{%if online%}/modoz{%endif %}/curso/"><img src="{{MEDIA_URL}}imgs/icon-02.png">meus cursos</a>
+			<a href="{%if online%}/modoz{%endif %}/duvidas/"><img src="{{MEDIA_URL}}imgs/icon-05.png">duvidas</a>
 			<a href="{%if online%}/modoz{%endif %}/cancelar_matricula/"><img src="{{MEDIA_URL}}imgs/icon-01.png">cancelar matricula</a>
 		</span>
 		<span class="direitos-pira">
@@ -37,7 +38,9 @@
 			<!-- <span class="btn-right-top"><img src="{{MEDIA_URL}}imgs/trocar-user-btn.png"> trocar usuário</span> -->
 			<span class="btn-right-top"><a href="{%if online%}/modoz{%endif %}/logout/"><img src="{{MEDIA_URL}}imgs/sair-btn.png"> Sair</a></span>
 		</div>
+		<div class="content">
 		{% block conteudo %}{% endblock %}
+		</div>
 	</div>
 	<div id="footer">
 		<span class="direitos-end">Todos os direitos reservados Modo Zero - {% now "Y" as current_year %}</span>

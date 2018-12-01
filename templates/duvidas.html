@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block titulo %}Modozero{% endblock %}
+{% block extrahead %}
+{% endblock %}
+{% block alunoNome %}{{matricula.aluno.nome}}{% endblock %}
+{% block alunoID %}{{matricula.numero}}{% endblock %}
+{% block alunoCPF %}{{matricula.aluno.cpf}}{% endblock %}
+{% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
+{% block conteudo %}
+<h2 class="topspace">INFORME SUA DÚVIDA</h2>
+
+<form id="id_form_duvidas" action="{%if online%}/modoz{% endif %}/duvidas/" method="POST">
+
+      <fieldset>
+         {{ form.pergunta.errors }}
+         <label>Qual a sua dúvida?</label>
+          <div>
+          {{form.pergunta}}
+
+          </div>
+      </fieldset>
+
+      <fieldset><p class="ui-state-highlight ui-corner-all" style="display:none;" id="alertpessoal">&nbsp;</p></fieldset>
+      <fieldset class="submitline"><input class="submit" type="submit" value="enviar" /></fieldset>
+ </form>
+<ul class="lista-duvidas">
+   <li>
+      <span class="pergunta">
+         <span class="box-por-info">
+            <span class="por-info">Aluno: João</span>
+            <span class="data-info">Data: 29/12/1987</span>
+            <span class="hora-info">Hora: 29/12/1987</span>
+         </span>
+       <span class="box-per">
+          como devo programar um css com qual tag devo começar?
+       </span>
+    </span>
+   </li>
+   <li>
+      <span class="resposta">
+         <span class="box-resp">
+            deve sempre começar configurando a sua tag header e body, a, span, divs, inputs, label, text-area, select, etc... todas as tag por definições como padrão.
+         </span>
+         <span class="box-por-info">
+            <span class="por-info">Professor: Bobby</span>
+            <span class="data-info">Data: 29/12/1987</span>
+            <span class="hora-info">Hora: 29/12/1987</span>
+         </span>
+      </span>
+   </li>
+</ul>
+<span class="paginator">
+  <span class="direita"> &lt; </span>
+  <span class="centro"> <t>1</t> <t>2</t> <t>3</t> <t>4</t> <t>5</t> </span>
+  <span class="esquerda"> &gt; </span>
+</span>
+{% endblock %}

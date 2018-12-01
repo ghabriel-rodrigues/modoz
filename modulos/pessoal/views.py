@@ -10,8 +10,9 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 
-from modoz.modulos.pessoal.forms import FormAluno,FormAlterarDados
+from modoz.modulos.pessoal.forms import FormAluno,FormAlterarDados,FormCancelarMatricula,FormDuvidas
 from modoz.modulos.pessoal.models import Aluno, Matricula
+from modoz.modulos.institucional.models import TelaInicialDoAluno
 
 from django.contrib.auth import logout
 
@@ -151,6 +152,72 @@ def alterardados_view(request):
     variaveis = RequestContext(request, {"form": form, "enviado":enviado,
                                          "aluno":aluno,"cad_usuario":cad_usuario, "matricula":matricula})
     return render_to_response('alterar_dados.html', variaveis)
+
+@login_required
+def cancelar_matricula_view(request):
+    cad_usuario = None
+
+    if request.session.get('cad_usuario'):
+        cad_usuario = request.session["cad_usuario"]
+
+    usuario = request.user
+    aluno = Aluno.objects.get(email__exact=usuario.email)
+    matricula = Matricula.objects.get(aluno__email__exact=usuario.email)
+
+
+    enviado = False
+    form = FormCancelarMatricula()
+
+    if request.method == 'POST':
+        form = FormCancelarMatricula(request.POST)
+        if form.is_valid():
+            usuario = User.objects.get(id__exact=request.user.id)
+            usuario.set_password(request.POST['password'])
+
+            if request.POST['nome'] != "":
+                aluno.nome = request.POST['nome']
+                usuario.first_name = request.POST['nome']
+
+            usuario.save()
+
+            aluno.nome = request.POST['nome']
+            aluno.email = request.POST['email']
+            aluno.telefone = request.POST['telefone']
+            aluno.sexo = request.POST['sexo']
+            try:
+                pessoal.opt = request.POST['opt']
+            except:
+                pass
+            aluno.save()
+            enviado = True
+
+    variaveis = RequestContext(request, {"form": form, "enviado":enviado,
+                                         "aluno":aluno,"cad_usuario":cad_usuario, "matricula":matricula})
+    return render_to_response('cancelar_matricula.html', variaveis)
+
+
+def duvidas_view(request):
+    cad_usuario = None
+    form = FormDuvidas()
+
+    usuario = request.user
+    aluno = Aluno.objects.get(email__exact=usuario.email)
+    matricula = Matricula.objects.get(aluno__email__exact=usuario.email)
+    telaInicialDoAluno = TelaInicialDoAluno.objects.get(id=1)
+
+
+    if request.session.get('cad_usuario'):
+        cad_usuario = request.session["cad_usuario"]
+
+
+    if request.method == 'POST':
+        form = FormDuvidas(request.POST)
+        form.save(commit=False)
+
+        # ///enviar email
+
+    return render_to_response('duvidas.html',locals(),context_instance=RequestContext(request),)
+
 
 def esqueceusuasenha_view(request):
     erro = False

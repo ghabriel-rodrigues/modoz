@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block titulo %}Modozero{% endblock %}
+{% block extrahead %}
+{% endblock %}
+{% block alunoNome %}{{matricula.aluno.nome}}{% endblock %}
+{% block alunoID %}{{matricula.numero}}{% endblock %}
+{% block alunoCPF %}{{matricula.aluno.cpf}}{% endblock %}
+{% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
+{% block conteudo %}
+<h2 class="topspace subtitle grid_8 alpha">Cancelar matrícula</h2>
+
+<form id="id_form_alterardados" action="{%if online%}/modoz{% endif %}/alterar_dados/" method="POST">
+   <fieldset>
+         {{ form.nome.errors }}
+         <label>Nome</label>
+          <div class="ipt_grande">
+            <input id="id_nome" name="nome" type="text" value="{{aluno.nome}}"/>
+          </div>
+      </fieldset>
+      <fieldset>
+         {{ form.telefone.errors }}
+         <label>Celular</label>
+          <div class="ipt_medio">
+          <input id="id_telefone" name="telefone" class="ipt_medio" type="text" value="{{aluno.telefone}}"/>
+          </div>
+      </fieldset>
+      <fieldset>
+         {{ form.password.errors }}
+         <label>Informe sua Senha</label>
+          <div>
+            {{form.password}}
+          </div>
+      </fieldset>
+      <fieldset>
+         {{ form.confirme.errors }}
+         <label>Confirme sua senha</label>
+          <div>
+          {{form.confirme}}
+
+          </div>
+      </fieldset>
+      <fieldset>
+         {{ form.motivo.errors }}
+         <label>Qual o motivo do cancelamento?</label>
+          <div>
+          {{form.motivo}}
+
+          </div>
+      </fieldset>
+
+      <fieldset><p class="ui-state-highlight ui-corner-all" style="display:none;" id="alertpessoal">&nbsp;</p></fieldset>
+      <fieldset class="submitline"><input class="submit" type="submit" value="enviar" /></fieldset>
+ </form>
+{% endblock %}

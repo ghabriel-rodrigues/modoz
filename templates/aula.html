@@ -10,40 +10,63 @@
 {% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
 
 {% block conteudo %}
-      <h2 class="topspace">{{aula.titulo}}</h2>
-		<div class='cronograma'>
-			<p>Tema: {{aula.titulo}}</p>
-			<ul>
-				<li>{{ aula.titulo|safe }}</li>
-            <li>{{ aula.descricao|safe }}</li>
-            <li>
-               <iframe
-                  width="940" height="380"
-                  src="{{aula.urlYoutube}}"
-                  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen>
-               </iframe>
-            </li>
-            <li>{{ aula.anexos }}</li>
-            <li>
-               {% for exercicio in aula.exercicios.all %}
-                     <span>{{ exercicio.titulo|safe }}</span>
-                     <ol>
-                     {% for questao in exercicio.questoes.all %}
-                     <li>
-                        <span>{{questao.pergunta|safe}}</span>
+      <div id="cursos-in">
+         <span class="title-big-cur">curso de montagem robotica//</span>
+         <span class="video-local"><img src="imgs/imf-ex.jpg"></span>
+         <span class="info-title-cu-02">Horas: 00:00 / Estatus: Em andamento</span>
+         <span class="content-text-cu">
+         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+         </span>
+         <span class="info-title-cu-03">Exercicio</span>
+         <span class="info-title-cu-02">1- O que é uma variável de acordo com Harvey Deitel?</span>
+         <label> <input type="checkbox"> A - Uma referência na memória </label>
+         <label> <input type="checkbox"> B - Uma referência no projeto escrito </label>
+         <span class="info-title-cu-02">2 - O que é uma variável de acordo com Harvey Deitel?</span>
+         <label> <input type="checkbox"> A - Uma referência na memória </label>
+         <label> <input type="checkbox"> B - Uma referência no projeto escrito </label>
+         <span class="info-title-cu-02">3 - O que é uma variável de acordo com Harvey Deitel?</span>
+         <label> <input type="checkbox"> A - Uma referência na memória </label>
+         <label> <input type="checkbox"> B - Uma referência no projeto escrito </label>
+         <button>Finalizar</button>
+         </div>
+         <!-- -->
+         <div id="cursos-in">
+            <h2 class="title-big-cur">{{aula.titulo}}</h2>
+            <div class='cronograma'>
+            <ul class="list-style-none">
+            	<li >{{ aula.titulo|safe }}</li>
+               <li></li>
+               <li class="video-local">
+                  <iframe
+                     width="940" height="380"
+                     src="{{aula.urlYoutube}}"
+                     frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                     allowfullscreen>
+                  </iframe>
+                  <span class="info-title-cu-02">Horas: 00:00 / Status: Em andamento</span>
+                  <span class="content-text-cu">{{ aula.descricao|safe }}</span>
+               </li>
+               <li>{{ aula.anexos }}</li>
+               <li>
+                  {% for exercicio in aula.exercicios.all %}
+                        <span>{{ exercicio.titulo|safe }}</span>
                         <ol>
-                           {% for alternativa in questao.alternativas.all %}
-                           <li>
-                              <span>{{alternativa.enunciado|safe}}</span><input name="{{alternativa.id}}" type="radio" />
-                           </li>
-                           {% endfor %}
-                        </ol>
-                     </li>
-                     {% endfor %}
-                  </ol>
-               {%endfor%}
-            </li>
-			</ul>
-		</div>
+                        {% for questao in exercicio.questoes.all %}
+                        <li>
+                           <span>{{questao.pergunta|safe}}</span>
+                           <ol>
+                              {% for alternativa in questao.alternativas.all %}
+                              <li>
+                                 <span>{{alternativa.enunciado|safe}}</span><input name="{{alternativa.id}}" type="radio" />
+                              </li>
+                              {% endfor %}
+                           </ol>
+                        </li>
+                        {% endfor %}
+                     </ol>
+                  {%endfor%}
+               </li>
+            </ul>
+         </div>
+      </div>
 {% endblock conteudo %}

@@ -15,7 +15,19 @@
 			<p>Aulas (Cronograma)</p>
 			<ul>
 				{% for aula in matricula.curso.aulas.all %}
-				<li><a href="{%if online%}/modoz{%endif %}/aula/{{aula.id}}">{{ aula.titulo }}</a></li>
+				<li><a></a></li>
+            <li><a href="{%if online%}/modoz{%endif %}/aula/{{aula.id}}">
+               <span class="content-curs">
+                  <span class="video-thumb"><img src="{{MEDIA_URL}}imgs/no-video.jpg"></span>
+                  <span class="box-info-cur-fa">
+                     <span class="title-fa-cu">{{ aula.titulo }}</span>
+                     <span class="info-title-cu">Horas: 00:00 / Status: Em andamento</span>
+                     <span class="content-text-cu">
+                        {{ aula.descricao|safe }}
+                     </span>
+                  </span>
+               </span>
+            </a></li>
 				{% endfor %}
 			</ul>
 		</div>

@@ -78,6 +78,8 @@ urlpatterns = patterns('',
     (r'^login/$', 'django.contrib.auth.views.login',{}, 'entrar'),
     (r'^logout/$', 'django.contrib.auth.views.logout',{'template_name': 'logout_simples.html'}, 'sair'),
     (r'^esqueceu_sua_senha/$', 'modoz.modulos.pessoal.views.esqueceusuasenha_view'),
+    (r'^cancelar_matricula/$', 'modoz.modulos.pessoal.views.cancelar_matricula_view',{}, 'cancelar_matricula'),
+    (r'^duvidas/$', 'modoz.modulos.pessoal.views.duvidas_view',{}, 'duvidas'),
 
 
     #home

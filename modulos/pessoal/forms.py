@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 from django.forms import ModelForm
-from models import Aluno
+from models import Aluno, Duvida
 from django.contrib.auth.models import User
 from django import forms
 from modoz.modulos.utils.cpf import CPF
@@ -57,6 +57,52 @@ class FormAlterarDados(ModelForm):
             usuario.save()
 
         return usuario
+
+class FormCancelarMatricula(ModelForm):
+    class Meta:
+        model = User
+        fields = ('username','first_name','email','password','last_name')
+        exclude = ('email','username','first_name','last_name')
+
+    nome = forms.CharField(max_length = 255,required=False)
+    email = forms.EmailField(required=False)
+    telefone = forms.CharField(max_length = 14, required=False)
+    confirme = forms.CharField(max_length=30, widget=forms.PasswordInput)
+    motivo = forms.CharField(max_length=5000, widget=forms.Textarea, required=True)
+
+
+    def __init__(self, *args, **kwargs):
+        self.base_fields['password'].widget = forms.PasswordInput()
+        super(FormCancelarMatricula, self).__init__(*args, **kwargs)
+
+    def clean_telefone(self):
+        num = self.cleaned_data['telefone'][5:6]
+        if num != "6" and num != "7" and num != "8" and num != "9":
+            raise forms.ValidationError('Por favor insira um numero de celular valido')
+        return self.cleaned_data['telefone']
+
+    def clean_confirme(self):
+        if self.cleaned_data['confirme'] != self.data['password']:
+            raise forms.ValidationError('Confirmacao da senha nao confere, por favor verifique se a senha e o confirme estao iguais')
+        return self.cleaned_data['confirme']
+
+    def save(self, commit=True):
+        usuario = super(FormCancelarMatricula, self).save(commit=False)
+        usuario.set_password(self.cleaned_data['password'])
+        usuario.username = self.cleaned_data['email']
+
+        if commit:
+            usuario.save()
+
+        return usuario
+
+class FormDuvidas(ModelForm):
+    class Meta:
+        model = Duvida
+
+    pergunta = forms.CharField(max_length=10000, widget=forms.Textarea, required=True)
+
+
 
 
 class FormAluno(ModelForm):

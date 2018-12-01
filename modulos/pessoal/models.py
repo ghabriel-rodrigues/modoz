@@ -62,10 +62,35 @@ class Aluno(models.Model):
     def getClass(self) :
         return "Aluno"
 
+
+class MotivoCancelamento(models.Model):
+    aluno = models.ForeignKey(Aluno)
+    motivo = models.TextField(blank = True, null = True, help_text = "")
+    dataCadastro = models.DateTimeField(auto_now_add = True, blank = True, null = True)
+
+    class Meta:
+        verbose_name = u"Motivo de cancelamento"
+        verbose_name_plural = u"Motivos"
+
+    def __str__(self) :
+        return "%s - %s - %s" % (self.id, self.aluno.nome, self.dataCadastro)
+
+    def __unicode__(self) :
+        return "%s - %s - %s" % (self.id, self.aluno.nome, self.dataCadastro)
+
+    def getClass(self) :
+        return "Motivo"
+
 class Duvida(models.Model):
+    CHOICES = (
+        ('respondido', 'Respondido'),
+        ('aguardando', 'Aguardando resposta'),
+    )
+    status = models.CharField(max_length=30,choices=CHOICES, blank=True)
     pergunta = models.TextField(blank = True, null = True, help_text = "")
     resposta = models.TextField(blank = True, null = True, help_text = "")
     aluno = models.ForeignKey(Aluno,blank=True, null=True)
+    professor = models.ForeignKey(Professor,blank=True, null=True)
     dataCadastro = models.DateTimeField(auto_now_add = True, blank = True, null = True)
 
     class Meta:
