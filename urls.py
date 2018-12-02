@@ -84,7 +84,6 @@ urlpatterns = patterns('',
 
     #home
     (r'^$', 'modoz.views.index'),
-    (r'^login/$', 'django.contrib.auth.views.login'),
 
     # url(r'^(?P<ofertaslug>[\w_-]+)/$', 'oferta_view', name='oferta'),
 

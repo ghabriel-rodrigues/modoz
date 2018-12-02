@@ -29,6 +29,10 @@ if ONLINE:
     DATABASE_HOST = 'mysql.devpublicon.kinghost.net'             # Set to empty string for localhost. Not used with sqlite3.
     DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
     SITE_ID = 2
+    #URL DO REDIRECIONAMENTO DE LOGIN DA modozero
+    LOGIN_REDIRECT_URL = '/modoz/'
+    LOGIN_URL = '/modoz/login/'
+    LOGOUT_URL = '/modoz/logout/'
 
 else:
 
@@ -39,6 +43,9 @@ else:
     DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
     DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
     SITE_ID = 3
+    LOGIN_REDIRECT_URL = '/'
+    LOGIN_URL = '/login/'
+    LOGOUT_URL = '/logout/'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -109,11 +116,6 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'modoz.urls'
 
 GRAPPELLI_ADMIN_TITLE = "modozero"
-
-#URL DO REDIRECIONAMENTO DE LOGIN DA PANFLETERIA
-LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = '/login/'
-LOGOUT_URL = '/logout/'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
