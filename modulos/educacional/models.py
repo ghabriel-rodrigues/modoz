@@ -172,6 +172,9 @@ class Curso(models.Model):
     anexos = models.FileField(upload_to='cursos', blank = True, null = True)
     aulas = models.ManyToManyField(Aula, related_name="curso_aula", verbose_name = "Aulas", blank = True, null = True)
     dataCadastro = models.DateTimeField(auto_now_add = True, blank = True, null = True)
+    diasDisponiveis = models.PositiveIntegerField(verbose_name='Numero de dias de curso',
+        help_text="Número de dias disponibilizados para o aluno utilizar o curso até expirar.", blank=True, null=True)
+
 
     class Meta:
         verbose_name = u"Curso"

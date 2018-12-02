@@ -24,6 +24,9 @@ fieldset {
 .content {
 	margin-top:60px;
 }
+.list-beside {
+		float:left; margin-right:20px;
+}
 #meio-ead2{
 
 	background:#ffffff url(../imgs/bg-meio-ead.png) 25% -05% repeat-x;
@@ -518,6 +521,7 @@ body{
 	display:inline-block;
 	padding:01% 0;
 	min-height:140px;
+	min-width: 200px;
 
 	}
 
@@ -547,7 +551,6 @@ body{
 	min-height: 100px;
 
   	}
-
 .direitos-end{
 
 	width:50%;
@@ -618,6 +621,11 @@ body{
 		}
 
 		.lista-duvidas, .list-style-none {  margin:0; padding:0; list-style: none;}
+		.marginless { margin:0; }
+		.paddingless { padding:0; }
+		.alpha {list-style-type: upper-alpha;}
+		.alpha li label input { padding-right:10px; width:auto !important; }
+		.alpha li label p { display:inline !important; padding:0 !important; margin:0 !important; }
 
 	.box-resp{
 

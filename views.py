@@ -89,7 +89,6 @@ def cancelar_matricula_view(request):
 @login_required
 def curso(request):
     telaInicialDoAluno = TelaInicialDoAluno.objects.get(id=1)
-    #matricula = Matricula.objects.get(id=1)
     usuario = request.user
     matricula = Matricula.objects.get(aluno__email__exact=usuario.email)
     return render_to_response('curso.html', locals(), context_instance=RequestContext(request),)
@@ -97,11 +96,13 @@ def curso(request):
 @login_required
 def aula_view(request,aulaid):
     # checar permissao do aluno para ver essa aula
+    telaInicialDoAluno = TelaInicialDoAluno.objects.get(id=1)
+
     usuario = request.user
     matricula = Matricula.objects.get(aluno__email__exact=usuario.email)
     aula = matricula.curso.aulas.get(id=aulaid)
     return render_to_response('aula.html', locals(), context_instance=RequestContext(request),)
-    
+
 @login_required
 def exercicio(request):
     return render_to_response('exercicio.html', locals(), context_instance=RequestContext(request),)

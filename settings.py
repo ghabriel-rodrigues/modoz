@@ -28,6 +28,7 @@ if ONLINE:
     DATABASE_PASSWORD = 'modozeromysql1'         # Not used with sqlite3.
     DATABASE_HOST = 'mysql.devpublicon.kinghost.net'             # Set to empty string for localhost. Not used with sqlite3.
     DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
+    SITE_ID = 2
 
 else:
 
@@ -37,6 +38,7 @@ else:
     DATABASE_PASSWORD = 'root'         # Not used with sqlite3.
     DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
     DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
+    SITE_ID = 3
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -49,7 +51,7 @@ TIME_ZONE = 'America/Sao_Paulo'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'pt-br'
 
-SITE_ID = 1
+
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.

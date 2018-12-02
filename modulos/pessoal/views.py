@@ -118,6 +118,7 @@ def alterardados_view(request):
     usuario = request.user
     aluno = Aluno.objects.get(email__exact=usuario.email)
     matricula = Matricula.objects.get(aluno__email__exact=usuario.email)
+    telaInicialDoAluno = TelaInicialDoAluno.objects.get(id=1)
 
 
     enviado = False
@@ -149,8 +150,7 @@ def alterardados_view(request):
             aluno.save()
             enviado = True
 
-    variaveis = RequestContext(request, {"form": form, "enviado":enviado,
-                                         "aluno":aluno,"cad_usuario":cad_usuario, "matricula":matricula})
+    variaveis = RequestContext(request, locals())
     return render_to_response('alterar_dados.html', variaveis)
 
 @login_required
@@ -163,7 +163,7 @@ def cancelar_matricula_view(request):
     usuario = request.user
     aluno = Aluno.objects.get(email__exact=usuario.email)
     matricula = Matricula.objects.get(aluno__email__exact=usuario.email)
-
+    telaInicialDoAluno = TelaInicialDoAluno.objects.get(id=1)
 
     enviado = False
     form = FormCancelarMatricula()
@@ -191,8 +191,7 @@ def cancelar_matricula_view(request):
             aluno.save()
             enviado = True
 
-    variaveis = RequestContext(request, {"form": form, "enviado":enviado,
-                                         "aluno":aluno,"cad_usuario":cad_usuario, "matricula":matricula})
+    variaveis = RequestContext(request, locals())
     return render_to_response('cancelar_matricula.html', variaveis)
 
 
