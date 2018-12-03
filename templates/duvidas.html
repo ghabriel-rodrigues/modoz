@@ -38,7 +38,7 @@
             <span class="data-info">Data: {{duvida.dataCadastro|date:"d/m/y" }}</span>
          </span>
        <span class="box-per">
-          {{duvida.pergunta}}
+          {{duvida.pergunta|safe}}
        </span>
     </span>
    </li>
@@ -46,10 +46,10 @@
    <li>
       <span class="resposta">
          <span class="box-resp">
-            {{duvida.resposta}}
+            {{duvida.resposta|safe}}
          </span>
          <span class="box-por-info">
-            <span class="por-info">Professor: {{duvida.resposta.professor.nome}}</span>
+            <span class="por-info">Professor: {{duvida.professor.nome}}</span>
          </span>
       </span>
    </li>
