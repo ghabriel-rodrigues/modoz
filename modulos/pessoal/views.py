@@ -9,10 +9,13 @@ from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render_to_response
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 from modoz.modulos.pessoal.forms import FormAluno,FormAlterarDados,FormCancelarMatricula,FormDuvidas
-from modoz.modulos.pessoal.models import Aluno, Matricula
+from modoz.modulos.pessoal.models import Aluno, Matricula, Duvida, MotivoCancelamento
+from modoz.modulos.educacional.models import Aula
 from modoz.modulos.institucional.models import TelaInicialDoAluno
+import datetime
 
 from django.contrib.auth import logout
 
@@ -20,6 +23,7 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/modoz/')
 
+@login_required
 def aluno_view(request):
     cad_usuario = None
 
@@ -117,7 +121,7 @@ def alterardados_view(request):
 
     usuario = request.user
     aluno = Aluno.objects.get(email__exact=usuario.email)
-    matricula = Matricula.objects.get(aluno__email__exact=usuario.email)
+    matricula = Matricula.objects.filter(aluno__email__exact=usuario.email)
     telaInicialDoAluno = TelaInicialDoAluno.objects.get(id=1)
 
 
@@ -132,7 +136,7 @@ def alterardados_view(request):
 
             if request.POST['nome'] != "":
                 aluno.nome = request.POST['nome']
-                usuario.first_name = request.POST['nome']
+                usuario.first_name = request.POST['nome'].split(" ")[0]
 
             usuario.save()
 
@@ -162,7 +166,7 @@ def cancelar_matricula_view(request):
 
     usuario = request.user
     aluno = Aluno.objects.get(email__exact=usuario.email)
-    matricula = Matricula.objects.get(aluno__email__exact=usuario.email)
+    matricula = Matricula.objects.filter(aluno__email__exact=usuario.email)
     telaInicialDoAluno = TelaInicialDoAluno.objects.get(id=1)
 
     enviado = False
@@ -172,48 +176,46 @@ def cancelar_matricula_view(request):
         form = FormCancelarMatricula(request.POST)
         if form.is_valid():
             usuario = User.objects.get(id__exact=request.user.id)
-            usuario.set_password(request.POST['password'])
-
-            if request.POST['nome'] != "":
-                aluno.nome = request.POST['nome']
-                usuario.first_name = request.POST['nome']
-
-            usuario.save()
-
-            aluno.nome = request.POST['nome']
-            aluno.email = request.POST['email']
-            aluno.telefone = request.POST['telefone']
-            aluno.sexo = request.POST['sexo']
-            try:
-                pessoal.opt = request.POST['opt']
-            except:
-                pass
-            aluno.save()
-            enviado = True
+            matchcheck= usuario.check_password(request.POST['password'])
+            if matchcheck:
+                motivo = MotivoCancelamento.create(aluno,request.POST['motivo'], datetime.datetime.now())
+                motivo.save()
+                enviado = True
 
     variaveis = RequestContext(request, locals())
     return render_to_response('cancelar_matricula.html', variaveis)
 
-
+@login_required
 def duvidas_view(request):
     cad_usuario = None
-    form = FormDuvidas()
+    form = FormDuvidas(request.user)
 
     usuario = request.user
     aluno = Aluno.objects.get(email__exact=usuario.email)
-    matricula = Matricula.objects.get(aluno__email__exact=usuario.email)
+    matricula = Matricula.objects.filter(aluno__email__exact=usuario.email)
+    duvidas = Duvida.objects.filter(aluno__email__exact=usuario.email)
     telaInicialDoAluno = TelaInicialDoAluno.objects.get(id=1)
+    enviado = False
 
+    # paginator = Paginator(duvidas_list, 1)
+    #
+    # page = request.GET['page']
+    # if page is None:
+    #     page = 1
+    #
+    # duvidas = paginator.page(page)
 
     if request.session.get('cad_usuario'):
         cad_usuario = request.session["cad_usuario"]
 
-
     if request.method == 'POST':
-        form = FormDuvidas(request.POST)
-        form.save(commit=False)
-
-        # ///enviar email
+        form = FormDuvidas(request.user, request.POST)
+        if form.is_valid():
+            aula = Aula.objects.get(id__exact=int(request.POST['aula']))
+            duvida = Duvida.create('aguardando', request.POST['pergunta'],
+                '', aula, aluno, None, datetime.datetime.now() )
+            duvida.save()
+            enviado = True
 
     return render_to_response('duvidas.html',locals(),context_instance=RequestContext(request),)
 

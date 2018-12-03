@@ -15,22 +15,28 @@ except ImportError:
 
 class Tema(models.Model):
     id = models.AutoField(primary_key=True)
-    nome = models.CharField("Tema", max_length = 255, blank = True, null = True, help_text = "")
+    titulo = models.CharField("Tema", max_length = 255, blank = True, null = True, help_text = "")
     descricao = models.TextField(blank = True, null = True, help_text = "")
     dataCadastro = models.DateTimeField(auto_now_add = True, blank = True, null = True)
+    titulourl = models.SlugField(verbose_name="URL amigavel para o tema",unique = True, blank = False, null = True, help_text = u"URLs devem ser compostos apenas de letras minusculas, '_' , '-' e numeros.")
+
 
     class Meta:
         verbose_name = u"Tema"
         verbose_name_plural = u"Temas"
 
     def __str__(self) :
-        return "%s - %s" % (self.id, self.nome)
+        return "%s - %s" % (self.id, self.titulo)
 
     def __unicode__(self) :
-        return "%s - %s" % (self.id, self.nome)
+        return "%s - %s" % (self.id, self.titulo)
 
     def getClass(self) :
         return "Tema"
+
+    def getURL(self) :
+        return "%s" % self.titulourl
+
 
 class Alternativa(models.Model):
     id = models.AutoField(primary_key=True)
@@ -121,6 +127,8 @@ class Exercicio(models.Model):
     status = models.CharField(max_length=30,choices=CHOICES, blank=True)
     tema = models.ForeignKey(Tema,blank=True, null=True)
     titulo = models.CharField("Titulo", max_length = 255, blank = True, null = True, help_text = "")
+    titulourl = models.SlugField(verbose_name="URL amigavel para o exercicio",unique = True, blank = False, null = True, help_text = u"URLs devem ser compostos apenas de letras minusculas, '_' , '-' e numeros.")
+
     descricao = models.TextField("Descricao", blank = True, null = True, help_text = "")
     questoes = models.ManyToManyField(Questao, related_name="exercicio_questao", verbose_name = "Questões", blank = True, null = True)
     aprovarCom75 = models.BooleanField("Aprovar com 75%", blank = True)
@@ -141,10 +149,14 @@ class Exercicio(models.Model):
     def getClass(self) :
         return "Exercicio"
 
+    def getURL(self) :
+        return "%s" % self.titulourl
+
 
 class Aula(models.Model):
     tema = models.ForeignKey(Tema, blank=True, null=True)
     titulo = models.CharField("Titulo", max_length = 255, blank = True, null = True, help_text = "")
+    titulourl = models.SlugField(verbose_name="URL amigavel para a aula",unique = True, blank = False, null = True, help_text = u"URLs devem ser compostos apenas de letras minusculas, '_' , '-' e numeros.")
     descricao = models.TextField("Descricao", blank = True, null = True, help_text = "")
     urlYoutube = models.CharField(u"Url do video", max_length=150, blank=True, null=True,help_text = u"Insira a URL do video da aula.")
     anexos = models.FileField(upload_to='aulas', blank = True, null = True)
@@ -164,10 +176,15 @@ class Aula(models.Model):
     def getClass(self) :
         return "Aula"
 
+    def getURL(self) :
+        return "%s" % self.titulourl
+
 class Curso(models.Model):
     id = models.AutoField(primary_key=True)
     tema = models.ForeignKey(Tema, blank=True, null=True)
     titulo = models.CharField("Titulo", max_length = 255, blank = True, null = True, help_text = "")
+    titulourl = models.SlugField(verbose_name="URL amigavel para o curso",unique = True, blank = False, null = True, help_text = u"URLs devem ser compostos apenas de letras minusculas, '_' , '-' e numeros.")
+    urlYoutube = models.CharField(u"Url do video", max_length=150, blank=True, null=True,help_text = u"Insira a URL do video para apresentar o curso.")
     descricao = models.TextField("Descricao", blank = True, null = True, help_text = "")
     anexos = models.FileField(upload_to='cursos', blank = True, null = True)
     aulas = models.ManyToManyField(Aula, related_name="curso_aula", verbose_name = "Aulas", blank = True, null = True)
@@ -188,3 +205,6 @@ class Curso(models.Model):
 
     def getClass(self) :
         return "Curso"
+
+    def getURL(self) :
+        return "%s" % self.titulourl

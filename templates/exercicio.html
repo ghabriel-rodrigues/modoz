@@ -1,61 +1,31 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="content-Type" content="text/html; charset=utf-8" />
-<title>MODOZERO</title>
-
-<link rel="stylesheet" type="text/css" media="screen, projection" href="{{MEDIA_URL}}css/style.css" />
-
-<script type="text/javascript" src="{{MEDIA_URL}}js/jquery-3.3.1.min.js" charset="utf-8"></script>
-
+{% extends "base.html" %}
+{% load i18n %}
+{% block titulo %}Aula{% endblock %}
 {% block extrahead %}{% endblock %}
 
-</head>
-<body>
-	<div class="homeAluno">
-		<div class='topo'><h1>NOME DO CURSO</h1></div>
-		<div class='meio'>
-			<ul>
-				<li>
-					<p>1 - Quanto é um mais um?</p>
-					<ol type="a">
-						<li>1</li>
-						<li>2</li>
-						<li>3</li>
-						<li>4</li>
-						<li>5</li>
-					</ol>
-					<p>1 - Quanto é um mais um?</p>
-					<ol type="a">
-						<li>1</li>
-						<li>2</li>
-						<li>3</li>
-						<li>4</li>
-						<li>5</li>
-					</ol>
-					<p>1 - Quanto é um mais um?</p>
-					<ol type="a">
-						<li>1</li>
-						<li>2</li>
-						<li>3</li>
-						<li>4</li>
-						<li>5</li>
-					</ol>
-					<p>1 - Quanto é um mais um?</p>
-					<ol type="a">
-						<li>1</li>
-						<li>2</li>
-						<li>3</li>
-						<li>4</li>
-						<li>5</li>
-					</ol>
-				</li>
-			</ul>
-		</div>
-		<div class="rodape">
-			<div class="msg">dasdasda</div>
-			<div class="cursos">dadas	</div>
-		</div>
-	</div>
-</body>
-</html>
+{% block alunoNome %}{{aluno.nome}}{% endblock %}
+{% block alunoCPF %}{{aluno.cpf}}{% endblock %}
+{% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
+
+{% block conteudo %}
+   <h2 class="title-big-cur">{{exercicio.titulo}}</h2>
+   <ul class="list-style-none">
+      <li>
+         	<ol>
+               {% for questao in exercicio.questoes.all %}
+               <li>
+                  <span class="info-title-cu-02">{{questao.pergunta|safe}}</span>
+                  <ol class="alpha marginless paddingless">
+                     {% for alternativa in questao.alternativas.all %}
+                     <li>
+                        <label><input name="{{questao.id}}" class="paddingless marginless" type="radio" />{{alternativa.enunciado|safe}}</label>
+                     </li>
+                     {% endfor %}
+                  </ol>
+               </li>
+               {% endfor %}
+            </ol>
+      </li>
+   </ul>
+   <button>Finalizar</button>
+{% endblock conteudo %}

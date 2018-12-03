@@ -42,7 +42,7 @@ else:
     DATABASE_PASSWORD = 'root'         # Not used with sqlite3.
     DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
     DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
-    SITE_ID = 3
+    SITE_ID = 2
     LOGIN_REDIRECT_URL = '/'
     LOGIN_URL = '/login/'
     LOGOUT_URL = '/logout/'

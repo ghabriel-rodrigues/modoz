@@ -68,6 +68,12 @@ class MotivoCancelamento(models.Model):
     motivo = models.TextField(blank = True, null = True, help_text = "")
     dataCadastro = models.DateTimeField(auto_now_add = True, blank = True, null = True)
 
+    @classmethod
+    def create(cls, aluno, motivo, dataCadastro ):
+        motivo = cls( aluno=aluno, motivo=motivo, dataCadastro=dataCadastro)
+        # do something with the book
+        return motivo
+
     class Meta:
         verbose_name = u"Motivo de cancelamento"
         verbose_name_plural = u"Motivos"
@@ -89,9 +95,17 @@ class Duvida(models.Model):
     status = models.CharField(max_length=30,choices=CHOICES, blank=True)
     pergunta = models.TextField(blank = True, null = True, help_text = "")
     resposta = models.TextField(blank = True, null = True, help_text = "")
+    aula = models.ForeignKey(Aula,blank=True, null=True)
     aluno = models.ForeignKey(Aluno,blank=True, null=True)
-    professor = models.ForeignKey(Professor,blank=True, null=True)
+    professor=models.ForeignKey(Professor,blank=True, null=True)
     dataCadastro = models.DateTimeField(auto_now_add = True, blank = True, null = True)
+
+    @classmethod
+    def create(cls, status, pergunta, resposta, aula, aluno, professor,dataCadastro ):
+        duvida = cls( status=status, pergunta=pergunta, resposta=resposta,
+         aula=aula, aluno=aluno, professor=professor,dataCadastro=dataCadastro)
+        # do something with the book
+        return duvida
 
     class Meta:
         verbose_name = u"Duvida"

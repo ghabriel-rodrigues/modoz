@@ -4,14 +4,16 @@
 {% block extrahead %}
 {% endblock %}
 
-{% block alunoNome %}{{matricula.aluno.nome}}{% endblock %}
-{% block alunoID %}{{matricula.numero}}{% endblock %}
-{% block alunoCPF %}{{matricula.aluno.cpf}}{% endblock %}
+{% block alunoNome %}{{aluno.nome}}{% endblock %}
+{% block alunoCPF %}{{aluno.cpf}}{% endblock %}
 {% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
 
 {% block conteudo %}
-      <h2 class="topspace subtitle grid_8 alpha">Altere suas informa&ccedil;&otilde;es</h2>
+      <h2 class="topspace">Altere suas informa&ccedil;&otilde;es</h2>
+      {%if enviado%}
+      <h3 class="topspace">Suas informa&ccedil;&otilde;es foram alteradas com sucesso!</h3>
 
+      {%else%}
 		<form id="id_form_alterardados" action="{%if online%}/modoz{% endif %}/alterar_dados/" method="POST">
         	<fieldset>
             	{{ form.nome.errors }}
@@ -21,10 +23,31 @@
                 </div>
             </fieldset>
             <fieldset>
+               	{{ form.email.errors }}
+               	<label>Email</label>
+                   <div class="ipt_grande">
+                      <input id="id_email" name="email" type="text" value="{{aluno.email}}"/>
+                   </div>
+               </fieldset>
+               <fieldset>
+                  	{{ form.cpf.errors }}
+                  	<label>CPF</label>
+                      <div class="ipt_grande">
+                         <input id="id_cpf" name="cpf" type="text" value="{{aluno.cpf}}"/>
+                      </div>
+                  </fieldset>
+            <fieldset>
             	{{ form.endereco.errors }}
             	<label>Endere&ccedil;o</label>
                 <div class="ipt_grande">
                 <input id="id_endereco" name="endereco" class="ipt_grande" type="text" value="{{aluno.endereco}}"/>
+                </div>
+            </fieldset>
+            <fieldset>
+            	{{ form.nascimento.errors }}
+            	<label>Data de Nascimento</label>
+                <div class="ipt_grande">
+               {{form.nascimento}}
                 </div>
             </fieldset>
             <fieldset>
@@ -60,4 +83,6 @@
             <fieldset><p class="ui-state-highlight ui-corner-all" style="display:none;" id="alertpessoal">&nbsp;</p></fieldset>
             <fieldset class="submitline"><input class="submit" type="submit" value="enviar" /></fieldset>
         </form>
+        {%endif%}
+        <a href="{%if online%}/modoz{%endif %}/cancelar_matricula/"><img src="{{MEDIA_URL}}imgs/icon-01.png">cancelar matricula</a>
 {% endblock conteudo %}

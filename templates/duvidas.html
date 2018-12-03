@@ -2,56 +2,76 @@
 {% block titulo %}Modozero{% endblock %}
 {% block extrahead %}
 {% endblock %}
-{% block alunoNome %}{{matricula.aluno.nome}}{% endblock %}
-{% block alunoID %}{{matricula.numero}}{% endblock %}
-{% block alunoCPF %}{{matricula.aluno.cpf}}{% endblock %}
+{% block alunoNome %}{{aluno.nome}}{% endblock %}
+{% block alunoCPF %}{{aluno.cpf}}{% endblock %}
 {% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
 {% block conteudo %}
 <h2 class="topspace">INFORME SUA DÚVIDA</h2>
 
 <form id="id_form_duvidas" action="{%if online%}/modoz{% endif %}/duvidas/" method="POST">
-
+   {%if enviado%}<h3>Sua duvida foi enviada com sucesso!</h3>{%endif%}
+   <fieldset>
+      {{ form.aula.errors }}
+      <label>Sua pergunta é referente a qual aula?</label>
+       <div>
+       {{form.aula}}
+       </div>
+   </fieldset>
       <fieldset>
          {{ form.pergunta.errors }}
          <label>Qual a sua dúvida?</label>
           <div>
           {{form.pergunta}}
-
           </div>
       </fieldset>
 
       <fieldset><p class="ui-state-highlight ui-corner-all" style="display:none;" id="alertpessoal">&nbsp;</p></fieldset>
-      <fieldset class="submitline"><input class="submit" type="submit" value="enviar" /></fieldset>
+      <fieldset class="submitline">{%if enviado%}{%else%}<input class="submit" type="submit" value="enviar" />{%endif%}</fieldset>
  </form>
+ {%if duvidas%}
 <ul class="lista-duvidas">
+   {% for duvida in duvidas %}
    <li>
       <span class="pergunta">
          <span class="box-por-info">
-            <span class="por-info">Aluno: João</span>
-            <span class="data-info">Data: 29/12/1987</span>
-            <span class="hora-info">Hora: 29/12/1987</span>
+            <span class="por-info">Aluno: {{duvida.aluno.nome}}</span>
+            <span class="data-info">Data: {{duvida.dataCadastro|date:"d/m/y" }}</span>
          </span>
        <span class="box-per">
-          como devo programar um css com qual tag devo começar?
+          {{duvida.pergunta}}
        </span>
     </span>
    </li>
+   {%if duvida.resposta %}
    <li>
       <span class="resposta">
          <span class="box-resp">
-            deve sempre começar configurando a sua tag header e body, a, span, divs, inputs, label, text-area, select, etc... todas as tag por definições como padrão.
+            {{duvida.resposta}}
          </span>
          <span class="box-por-info">
-            <span class="por-info">Professor: Bobby</span>
-            <span class="data-info">Data: 29/12/1987</span>
-            <span class="hora-info">Hora: 29/12/1987</span>
+            <span class="por-info">Professor: {{duvida.resposta.professor.nome}}</span>
          </span>
       </span>
    </li>
+   {%endif%}
+   {%endfor%}
 </ul>
-<span class="paginator">
-  <span class="direita"> &lt; </span>
-  <span class="centro"> <t>1</t> <t>2</t> <t>3</t> <t>4</t> <t>5</t> </span>
-  <span class="esquerda"> &gt; </span>
-</span>
+<!-- <div class="pagination">
+    <span class="step-links">
+        {% if duvidas.has_previous %}
+            <a href="?page=1">&laquo;</a>
+            <a class="esquerda" href="?page={{ duvidas.previous_page_number }}"> &lt;</a>
+        {% endif %}
+
+        <span class="centro current">
+             <t>{{ duvidas.number }}</t> de <t>{{ duvidas.paginator.num_pages }}</t>
+        </span>
+
+        {% if duvidas.has_next %}
+            <a class="direita" href="?page={{ duvidas.next_page_number }}">&gt;</a>
+            <a href="?page={{ duvidas.paginator.num_pages }}">&raquo;</a>
+        {% endif %}
+    </span>
+</div> -->
+{% endif %}
 {% endblock %}

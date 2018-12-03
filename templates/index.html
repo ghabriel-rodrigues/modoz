@@ -2,9 +2,8 @@
 {% block titulo %}Modozero{% endblock %}
 {% block extrahead %}
 {% endblock %}
-{% block alunoNome %}{{matricula.aluno.nome}}{% endblock %}
-{% block alunoID %}{{matricula.numero}}{% endblock %}
-{% block alunoCPF %}{{matricula.aluno.cpf}}{% endblock %}
+{% block alunoNome %}{{aluno.nome}}{% endblock %}
+{% block alunoCPF %}{{aluno.cpf}}{% endblock %}
 {% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
 {% block conteudo %}
 <div id="video-espli">
@@ -28,15 +27,21 @@
       <a href="#">Não iniciados</a>
       <a href="#">Finalizados</a>
    </span>
+   {% if matriculas %}
+   {%for matricula in matriculas.all%}
    <span class="content-curs">
-      <span class="video-thumb"><img src="{{MEDIA_URL}}/imgs/no-video.jpg"></span> 
-      <span class="box-info-cur-fa">
+      <span class="video-thumb"><img src="{{MEDIA_URL}}/imgs/no-video.jpg"></span>
+      <a href="{%if online %}/modoz{%endif %}/curso/{{matricula.curso.titulourl}}" class="box-info-cur-fa">
          <span class="title-fa-cu">{{matricula.curso.titulo}}</span>
-         <span class="info-title-cu">Horas: 00:00 / Estatus: Em andamento</span>
+         <span class="info-title-cu">Horas: 00:00 / Status:  {%if matricula.cursosituacao %}{{matricula.cursosituacao}}{%else%}Aberto{%endif%}</span>
          <span class="content-text-cu">
             {{matricula.curso.descricao|safe}}
          </span>
-      </span>
+      </a>
    </span>
+   {%endfor%}
+   {% else %}
+   <h3>Adquira já nossos cursos!</h3>
+   {% endif %}
 </div>
 {% endblock %}

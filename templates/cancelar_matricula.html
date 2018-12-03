@@ -2,14 +2,16 @@
 {% block titulo %}Modozero{% endblock %}
 {% block extrahead %}
 {% endblock %}
-{% block alunoNome %}{{matricula.aluno.nome}}{% endblock %}
-{% block alunoID %}{{matricula.numero}}{% endblock %}
-{% block alunoCPF %}{{matricula.aluno.cpf}}{% endblock %}
+{% block alunoNome %}{{aluno.nome}}{% endblock %}
+{% block alunoCPF %}{{aluno.cpf}}{% endblock %}
 {% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
 {% block conteudo %}
 <h2 class="topspace subtitle grid_8 alpha">Cancelar matrícula</h2>
+{%if enviado%}
+<h3 class="topspace">Sua solicitaçao foi feita! Aguarde retorno de nossa equipe, por favor.</h3>
 
-<form id="id_form_alterardados" action="{%if online%}/modoz{% endif %}/alterar_dados/" method="POST">
+{%else%}
+<form id="id_form_alterardados" action="{%if online%}/modoz{% endif %}/cancelar_matricula/" method="POST">
    <fieldset>
          {{ form.nome.errors }}
          <label>Nome</label>
@@ -50,5 +52,5 @@
 
       <fieldset><p class="ui-state-highlight ui-corner-all" style="display:none;" id="alertpessoal">&nbsp;</p></fieldset>
       <fieldset class="submitline"><input class="submit" type="submit" value="enviar" /></fieldset>
- </form>
+ </form>{%endif%}
 {% endblock %}

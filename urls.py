@@ -64,13 +64,18 @@ urlpatterns = patterns('',
     (r'^grappelli/', include('modoz.modulos.grappelli.urls')),
     (r'^utils/', include('modoz.modulos.utils.urls')),
 
-    (r'^aula/(?P<aulaid>[\w_-]+)/$', 'modoz.views.aula_view'),
+    (r'^aula/(?P<titulourl>[\w_-]+)/$', 'modoz.views.aula_view'),
+
+    # (r'^tema/(?P<titulourl>[\w_-]+)/$', 'modoz.views.tema_view'),
+
 
     #home
-    (r'^curso/$', 'modoz.views.curso'),
+    (r'^curso/(?P<titulourl>[\w_-]+)/$', 'modoz.views.curso'),
+    (r'^cursos/$', 'modoz.views.cursos'),
+
 
     #exercicio
-    (r'^exercicio/$', 'modoz.views.exercicio'),
+    (r'^exercicio/(?P<titulourl>[\w_-]+)/$', 'modoz.views.exercicio'),
 
     #cadastro
     (r'^aluno/$', 'modoz.modulos.pessoal.views.aluno_view'),

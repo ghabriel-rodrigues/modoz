@@ -1,9 +1,11 @@
 #-*- coding: utf-8 -*-
 from django.forms import ModelForm
-from models import Aluno, Duvida
+from models import Aluno, Duvida, Matricula
 from django.contrib.auth.models import User
 from django import forms
+from modoz.modulos.educacional.models import Curso, Aula
 from modoz.modulos.utils.cpf import CPF
+
 
 #class FormAluno(ModelForm):
 #    class Meta:
@@ -37,11 +39,6 @@ class FormAlterarDados(ModelForm):
         self.base_fields['password'].widget = forms.PasswordInput()
         super(FormAlterarDados, self).__init__(*args, **kwargs)
 
-    def clean_telefone(self):
-        num = self.cleaned_data['telefone'][5:6]
-        if num != "6" and num != "7" and num != "8" and num != "9":
-            raise forms.ValidationError('Por favor insira um numero de celular valido')
-        return self.cleaned_data['telefone']
 
     def clean_confirme(self):
         if self.cleaned_data['confirme'] != self.data['password']:
@@ -75,12 +72,6 @@ class FormCancelarMatricula(ModelForm):
         self.base_fields['password'].widget = forms.PasswordInput()
         super(FormCancelarMatricula, self).__init__(*args, **kwargs)
 
-    def clean_telefone(self):
-        num = self.cleaned_data['telefone'][5:6]
-        if num != "6" and num != "7" and num != "8" and num != "9":
-            raise forms.ValidationError('Por favor insira um numero de celular valido')
-        return self.cleaned_data['telefone']
-
     def clean_confirme(self):
         if self.cleaned_data['confirme'] != self.data['password']:
             raise forms.ValidationError('Confirmacao da senha nao confere, por favor verifique se a senha e o confirme estao iguais')
@@ -100,9 +91,21 @@ class FormDuvidas(ModelForm):
     class Meta:
         model = Duvida
 
+
+    def __init__(self, user, *args, **kwargs):
+        super(FormDuvidas, self).__init__(*args, **kwargs)
+        cursos = Matricula.objects.values_list('curso').filter(aluno__email__exact=user.email)
+        self.fields['aula'].queryset = Aula.objects.filter(curso_aula=cursos)
+
     pergunta = forms.CharField(max_length=10000, widget=forms.Textarea, required=True)
 
+    def save(self, commit=True):
+        duvida = super(FormDuvidas, self).save(commit=False)
 
+        if commit:
+            duvida.save()
+
+        return duvida
 
 
 class FormAluno(ModelForm):
