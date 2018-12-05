@@ -179,6 +179,9 @@ class Aula(models.Model):
     def getURL(self) :
         return "%s" % self.titulourl
 
+    def getVideoID(self):
+        return "%s" % self.urlYoutube[30:41]
+
 class Curso(models.Model):
     id = models.AutoField(primary_key=True)
     tema = models.ForeignKey(Tema, blank=True, null=True)
@@ -208,3 +211,6 @@ class Curso(models.Model):
 
     def getURL(self) :
         return "%s" % self.titulourl
+
+    def getVideoID(self):
+        return "%s" % self.urlYoutube[30:41]
