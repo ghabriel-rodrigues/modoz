@@ -11,7 +11,7 @@
 <p>Aulas (Cronograma)</p>
 <ul class="lista-cronograma">
 {% for aula in curso.aulas.all %}
-<li><a href="{{site}}aula/{{aula.titulourl}}">{{aula.id}} - {{aula.titulo}}</a></li>
+<li><a href="{{aula.titulourl}}">{{aula.id}} - {{aula.titulo}}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}
