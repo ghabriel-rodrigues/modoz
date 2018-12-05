@@ -58,7 +58,13 @@ def esqueceusuasenha_view(request):
 
 @login_required
 def curso(request,titulourl):
+    cursoSetado = None
+
+    if request.session.get('cursoSetado'):
+        cursoSetado = request.session["cursoSetado"]
+
     curso = Curso.objects.get(titulourl=titulourl)
+
     return render_to_response('curso.html', locals(), context_instance=RequestContext(request),)
 
 
@@ -68,11 +74,25 @@ def cursos(request):
 
 @login_required
 def aula_view(request,titulourl):
+    cursoSetado = None
     # checar permissao do aluno para ver essa aula
     aula = Aula.objects.get(titulourl=titulourl)
+
+    if request.session.get('cursoSetado'):
+        cursoSetado = request.session["cursoSetado"]
+    else:
+        cursoSetado = Curso.objects.get(aulas__id=aula.id)
+        request.session["cursoSetado"] = cursoSetado
+
     return render_to_response('aula.html', locals(), context_instance=RequestContext(request),)
 
 @login_required
 def exercicio(request,titulourl):
+    cursoSetado = None
+
+    if request.session.get('cursoSetado'):
+        cursoSetado = request.session["cursoSetado"]
+        
+    #checar permissao
     exercicio = Exercicio.objects.get(titulourl=titulourl)
     return render_to_response('exercicio.html', locals(), context_instance=RequestContext(request),)

@@ -4,6 +4,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from modulos.educacional.models import Curso, Aula, Exercicio
 
+
+
 class Professor(models.Model):
     CHOICES = (
         ('masculino', 'Masculino'),
@@ -61,6 +63,18 @@ class Aluno(models.Model):
 
     def getClass(self) :
         return "Aluno"
+
+
+class DesempenhoAlunoExercicio(models.Model):
+    aluno = models.ForeignKey(Aluno)
+    dataCadastro = models.DateTimeField(auto_now_add = True, blank = True, null = True)
+    exercicio = models.ForeignKey(Exercicio)
+    # status = aprovado/reprovado
+    # armazenar exercicio, questoes certas e erradas.
+class DesempenhoAlunoCurso(models.Model):
+    aluno = models.ForeignKey(Aluno)
+    curso = models.ForeignKey(Curso)
+    #status = aprovado /reprovado
 
 
 class MotivoCancelamento(models.Model):

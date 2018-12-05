@@ -4,7 +4,7 @@
 <meta http-equiv="content-Type" content="text/html; charset=utf-8" />
 <title>{% block titulo %}{% endblock %}</title>
 
-<link rel="stylesheet" type="text/css" media="screen, projection" href="{{MEDIA_URL}}css/stylemz11.css" />
+<link rel="stylesheet" type="text/css" media="screen, projection" href="{{MEDIA_URL}}css/stylemz12.css" />
 <script type="text/javascript" src="{{MEDIA_URL}}js/jquery-3.3.1.min.js" charset="utf-8"></script>
 
 {% block extrahead %}{% endblock %}
@@ -18,6 +18,9 @@
 			<a href="{%if online%}/modoz{%endif %}/alterar_dados/"><img src="{{MEDIA_URL}}imgs/icon-03.png">editar dados</a>
 			<a href="{%if online%}/modoz{%endif %}/cursos/"><img src="{{MEDIA_URL}}imgs/icon-02.png">meus cursos</a>
 			<a href="{%if online%}/modoz{%endif %}/duvidas/"><img src="{{MEDIA_URL}}imgs/icon-05.png">dúvidas</a>
+		</span>
+		<span class="cronograma">
+			{% block listagemdeaulas %}{% endblock %}
 		</span>
 		<span class="direitos-pira">
 			<img src="{{MEDIA_URL}}imgs/iconfinder_exclamation_11069.png">

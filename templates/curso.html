@@ -7,7 +7,14 @@
 {% block alunoNome %}{{aluno.nome}}{% endblock %}
 {% block alunoCPF %}{{aluno.cpf}}{% endblock %}
 {% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
-
+{% block listagemdeaulas%}
+<p>Aulas (Cronograma)</p>
+<ul class="lista-cronograma">
+{% for aula in curso.aulas.all %}
+<li><a href="{{site}}aula/{{aula.titulourl}}">{{aula.id}} - {{aula.titulo}}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}
 {% block conteudo %}
       <h2 class="topspace">{{curso.titulo}}</h2>
 		<div class='cronograma'>

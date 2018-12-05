@@ -7,7 +7,14 @@
 {% block alunoNome %}{{aluno.nome}}{% endblock %}
 {% block alunoCPF %}{{aluno.cpf}}{% endblock %}
 {% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
-
+{% block listagemdeaulas%}
+<p>Aulas (Cronograma)</p>
+<ul class="lista-cronograma">
+{% for aula in cursoSetado.aulas.all %}
+<li><a href="{{site}}aula/{{aula.titulourl}}">{{aula.id}} - {{aula.titulo}}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}
 {% block conteudo %}
 <div id="cursos-in">
    <h2 class="title-big-cur">{{aula.titulo}}</h2>
@@ -32,6 +39,5 @@
          <a href="{{MEDIA_URL}}{{ aula.anexos }}">Download</a>
       </li>
    </ul>
-   <button>Finalizar</button>
 </div>
 {% endblock conteudo %}

@@ -11,22 +11,22 @@ class MotivoAdmin(admin.ModelAdmin):
 class AlunoAdmin(admin.ModelAdmin):
     #add_form = FormCadastro
     #form = FormCadastro
-    list_display = ['status', 'email', 'nome', 'cpf', 'telefone', 'dataCadastro']
+    list_display = ['email', 'status', 'nome', 'cpf', 'telefone', 'dataCadastro']
 
 class ProfessorAdmin(admin.ModelAdmin):
     #add_form = FormCadastro
     #form = FormCadastro
-    list_display = ['status', 'email', 'nome', 'cpf', 'telefone', 'dataCadastro']
+    list_display = [ 'email', 'status', 'nome', 'cpf', 'telefone', 'dataCadastro']
 
 class DuvidaAdmin(admin.ModelAdmin):
     #add_form = FormCadastro
     #form = FormCadastro
-    list_display = ['pergunta', 'resposta', 'aluno', 'dataCadastro']
+    list_display = [ 'aluno', 'pergunta', 'resposta', 'dataCadastro']
 
 class MatriculaAdmin(admin.ModelAdmin):
     #add_form = FormCadastro
     #form = FormCadastro
-    list_display = ['status', 'numero', 'aluno', 'curso','formasDePagamento', 'inicioDoPeriodo', 'terminoDoPeriodo']
+    list_display = ['aluno', 'status', 'numero', 'curso', 'formasDePagamento', 'inicioDoPeriodo', 'terminoDoPeriodo']
 
 class VisitaAdmin(admin.ModelAdmin):
     #add_form = FormCadastro
