@@ -119,6 +119,27 @@ class Duvida(models.Model):
     def getClass(self) :
         return "Duvida"
 
+class DesempenhoAlunoGabarito(models.Model):
+    aluno = models.ForeignKey(Aluno)
+    aula = models.ForeignKey(Aula)
+    exercicio = models.ForeignKey(Exercicio)
+    curso = models.ForeignKey(Curso)
+    dataCadastro = models.DateTimeField(auto_now_add = True, blank = True, null = True)
+    respostas = models.ManyToManyField(Aula, related_name="matricula_aulas", verbose_name = "Aulas assistidas", blank = True, null = True)
+
+
+class DesempenhoAlunoExercicio(models.Model):
+    aluno = models.ForeignKey(Aluno)
+    dataCadastro = models.DateTimeField(auto_now_add = True, blank = True, null = True)
+    exercicio = models.ForeignKey(Exercicio)
+
+    # status = aprovado/reprovado
+    # armazenar exercicio, questoes certas e erradas.
+class DesempenhoAlunoCurso(models.Model):
+    aluno = models.ForeignKey(Aluno)
+    curso = models.ForeignKey(Curso)
+    #status = aprovado /reprovado
+
 class Matricula(models.Model):
     CHOICES = (
         ('Habilitada', 'Habilitada'),
