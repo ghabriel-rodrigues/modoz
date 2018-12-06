@@ -33,7 +33,7 @@
          {% if matricula.curso.getVideoID %}
          <img src="https://img.youtube.com/vi/{{matricula.curso.getVideoID}}/mqdefault.jpg">
          {%else%}
-         <img src="{{MEDIA_URL}}img/no-video.jpg">
+         <img src="{{MEDIA_URL}}imgs/no-video.jpg">
          {% endif %}
       </span>
       <a href="{%if online %}/modoz{%endif %}/curso/{{matricula.curso.titulourl}}" class="box-info-cur-fa">

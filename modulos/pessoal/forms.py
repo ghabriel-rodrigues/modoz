@@ -94,10 +94,17 @@ class FormDuvidas(ModelForm):
 
     def __init__(self, user, *args, **kwargs):
         super(FormDuvidas, self).__init__(*args, **kwargs)
+        aulaPorCursos = None
         cursos = Matricula.objects.values_list('curso').filter(aluno__email__exact=user.email)
-        self.fields['aula'].queryset = Aula.objects.filter(curso_aula=cursos)
 
-    pergunta = forms.CharField(max_length=10000, widget=forms.Textarea, required=True)
+        for curso in cursos:
+            if aulaPorCursos == None:
+                aulaPorCursos = Aula.objects.filter(curso_aula=curso)
+            else:
+                aulaPorCursos |= Aula.objects.filter(curso_aula=curso)
+
+        self.fields['aula'].queryset = aulaPorCursos
+        pergunta = forms.CharField(max_length=10000, widget=forms.Textarea, required=True)
 
     def save(self, commit=True):
         duvida = super(FormDuvidas, self).save(commit=False)

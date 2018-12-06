@@ -11,7 +11,7 @@
 <p>Aulas (Cronograma)</p>
 <ul class="lista-cronograma">
 {% for aula in curso.aulas.all %}
-<li><a href="{%if online%}/modoz{%endif%}/aula/{{aula.titulourl}}">{{aula.id}} - {{aula.titulo}}</a></li>
+<li><a href="{%if online%}/modoz{%endif%}/aula/{{aula.titulourl}}">{{aula.titulo}}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}
@@ -27,7 +27,7 @@
                      {% if aula.getVideoID %}
                      <img src="https://img.youtube.com/vi/{{aula.getVideoID}}/mqdefault.jpg">
                      {%else%}
-                     <img src="{{MEDIA_URL}}img/no-video.jpg">
+                     <img src="{{MEDIA_URL}}imgs/no-video.jpg">
                      {% endif %}
                   </span>
                   <span class="box-info-cur-fa">

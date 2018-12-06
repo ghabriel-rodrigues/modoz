@@ -168,10 +168,10 @@ class Aula(models.Model):
         verbose_name_plural = u"Aulas"
 
     def __str__(self) :
-        return "%s - %s" % (self.id, self.titulo)
+        return "%s" % (self.titulo)
 
     def __unicode__(self) :
-        return "%s - %s" % (self.id, self.titulo)
+        return "%s" % (self.titulo)
 
     def getClass(self) :
         return "Aula"

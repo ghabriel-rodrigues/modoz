@@ -11,7 +11,7 @@
 <p>Aulas (Cronograma)</p>
 <ul class="lista-cronograma">
 {% for aula in cursoSetado.aulas.all %}
-<li><a href="{%if online%}/modoz{%endif%}/aula/{{aula.titulourl}}">{{aula.id}} - {{aula.titulo}}</a></li>
+<li><a href="{%if online%}/modoz{%endif%}/aula/{{aula.titulourl}}">{{aula.titulo}}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}
@@ -29,15 +29,19 @@
          <span class="info-title-cu-02">Horas: 00:00 / Status: {%if matricula.cursosituacao%}{{matricula.cursosituacao}}{%else%}Aberto{%endif%}</span>
          <span class="content-text-cu">{{ aula.descricao|safe }}</span>
       </li>
+      {% if aula.exercicios.all %}
       <li>
          <h3>Resolução de exercicios:</h3>
          {% for exercicio in aula.exercicios.all %}
             <a href="{%if online%}/modoz{%endif%}/exercicio/{{exercicio.titulourl}}">{{ exercicio.titulo|safe }}</a>
          {%endfor%}
+      {%endif%}
+      {% if aula.anexos %}
       <li>
          <h3>Documentos e complementos:</h3>
          <a href="{{MEDIA_URL}}{{ aula.anexos }}">Download</a>
       </li>
+      {% endif %}
    </ul>
 </div>
 {% endblock conteudo %}
