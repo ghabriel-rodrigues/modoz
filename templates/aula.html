@@ -7,15 +7,8 @@
 {% block alunoNome %}{{aluno.nome}}{% endblock %}
 {% block alunoCPF %}{{aluno.cpf}}{% endblock %}
 {% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
-{% block listagemdeaulas%}
-<p>Aulas (Cronograma)</p>
-<ul class="lista-cronograma">
-{% for aula in cursoSetado.aulas.all %}
-<li><a href="{%if online%}/modoz{%endif%}/aula/{{aula.titulourl}}">{{aula.titulo}}</a></li>
-{% endfor %}
-</ul>
-{% endblock %}
 {% block conteudo %}
+{%if aula%}
 <div id="cursos-in">
    <h2 class="title-big-cur">{{aula.titulo}}</h2>
    <ul class="list-style-none">
@@ -44,4 +37,7 @@
       {% endif %}
    </ul>
 </div>
+{%else%}
+<h3>Você não tem permissão para acessar essa aula.</h3>
+{%endif%}
 {% endblock conteudo %}

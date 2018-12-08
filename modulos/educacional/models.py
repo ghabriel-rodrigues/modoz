@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 from django.db import models
-
+import base64
 
 #Importa a biblioteca grafica do Python (PIL - Python Imaging Library)
 try:
@@ -152,7 +152,6 @@ class Exercicio(models.Model):
     def getURL(self) :
         return "%s" % self.titulourl
 
-
 class Aula(models.Model):
     tema = models.ForeignKey(Tema, blank=True, null=True)
     titulo = models.CharField("Titulo", max_length = 255, blank = True, null = True, help_text = "")
@@ -162,6 +161,7 @@ class Aula(models.Model):
     anexos = models.FileField(upload_to='aulas', blank = True, null = True)
     exercicios = models.ManyToManyField(Exercicio, related_name="aula_exercicio", verbose_name = "Exercicios", blank = True, null = True)
     dataCadastro = models.DateTimeField(auto_now_add = True, blank = True, null = True)
+    relates_to = models.ForeignKey('self', verbose_name="Proxima aula", blank = True, null = True)
 
     class Meta:
         verbose_name = u"Aula"

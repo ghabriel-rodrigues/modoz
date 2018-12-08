@@ -76,6 +76,7 @@ urlpatterns = patterns('',
 
     #exercicio
     (r'^exercicio/(?P<titulourl>[\w_-]+)/$', 'modoz.views.exercicio'),
+    (r'^processamentoAvaliacao/(?P<titulourl>[\w_-]+)/$', 'modoz.views.exercicio'),
 
     #cadastro
     (r'^aluno/$', 'modoz.modulos.pessoal.views.aluno_view'),

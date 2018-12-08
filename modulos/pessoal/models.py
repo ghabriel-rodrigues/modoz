@@ -2,7 +2,8 @@
 from django.db import models
 
 from django.contrib.auth.models import User
-from modulos.educacional.models import Curso, Aula, Exercicio
+from modulos.educacional.models import Curso, Aula, Exercicio, Questao, Alternativa
+from datetime import datetime, timedelta
 
 class Professor(models.Model):
     CHOICES = (
@@ -119,26 +120,90 @@ class Duvida(models.Model):
     def getClass(self) :
         return "Duvida"
 
-class DesempenhoAlunoGabarito(models.Model):
+class DesempenhoDoAlunoPorExercicio(models.Model):
+    aluno = models.ForeignKey(Aluno)
+    exercicio = models.ForeignKey(Exercicio)
+    dataCadastro = models.DateTimeField(auto_now_add = True, blank = True, null = True)
+    respostas = models.ManyToManyField(Alternativa, related_name="porExercicio_porAlternativa",blank = True,null = True)
+
+    questoesAcertadas = models.ManyToManyField(Questao, related_name="porExercicio_porQuestao",blank = True,null = True)
+    nota = models.FloatField(blank=False, null=False)
+    STATUS = (
+        ('Aprovado', 'Aprovado'),
+        ('Reprovado', 'Reprovado'),
+        ('Andamento', 'Andamento'))
+    status = models.CharField(max_length=30,choices=STATUS, blank=True)
+
+    @classmethod
+    def create(cls, aluno, exercicio, dataCadastro, status, nota ):
+        desempenho = cls(aluno=aluno, exercicio=exercicio, dataCadastro=dataCadastro, status=status, nota=nota)
+        return desempenho
+
+    class Meta:
+        verbose_name = u"Desempenho do aluno por exercicio"
+        verbose_name_plural = u"Desempenhos dos alunos por exercicio"
+
+    def __str__(self) :
+        return "%s - %s" % (self.aluno.nome, self.exercicio.titulo)
+
+    def __unicode__(self) :
+        return "%s - %s" % (self.aluno.nome, self.exercicio.titulo)
+
+    def getClass(self) :
+        return "DesempenhoDoAlunoPorExercicio"
+
+    def get_token_safe(self):
+        token = str(self.dataCadastro.second) + str(self.exercicio.aula_exercicio.id) + str(self.id) + str(self.dataCadastro.minute) + self.titulourl
+        token_cifrado = base64.b64encode(token)
+        return "%s" % (str(token_cifrado))[:15]
+
+class DesempenhoDoAlunoPorAula(models.Model):
     aluno = models.ForeignKey(Aluno)
     aula = models.ForeignKey(Aula)
-    exercicio = models.ForeignKey(Exercicio)
-    curso = models.ForeignKey(Curso)
+    desempenhoDosExercicios = models.ManyToManyField(DesempenhoDoAlunoPorExercicio, related_name="porAula_porExercicio",blank = True,null = True)
     dataCadastro = models.DateTimeField(auto_now_add = True, blank = True, null = True)
-    respostas = models.ManyToManyField(Aula, related_name="matricula_aulas", verbose_name = "Aulas assistidas", blank = True, null = True)
+    STATUS = (
+        ('Aprovado', 'Aprovado'),
+        ('Reprovado', 'Reprovado'),
+        ('Andamento', 'Andamento'))
+    status = models.CharField(max_length=30,choices=STATUS, blank=True)
 
+    class Meta:
+        verbose_name = u"Desempenho do aluno por aula"
+        verbose_name_plural = u"Desempenhos dos alunos por aula"
 
-class DesempenhoAlunoExercicio(models.Model):
-    aluno = models.ForeignKey(Aluno)
-    dataCadastro = models.DateTimeField(auto_now_add = True, blank = True, null = True)
-    exercicio = models.ForeignKey(Exercicio)
+    def __str__(self) :
+        return "%s - %s" % (self.aluno.nome, self.aula.titulo)
 
-    # status = aprovado/reprovado
-    # armazenar exercicio, questoes certas e erradas.
-class DesempenhoAlunoCurso(models.Model):
+    def __unicode__(self) :
+        return "%s - %s" % (self.aluno.nome, self.aula.titulo)
+
+    def getClass(self) :
+        return "DesempenhoAlunoPorAula"
+
+class DesempenhoDoAlunoPorCurso(models.Model):
     aluno = models.ForeignKey(Aluno)
     curso = models.ForeignKey(Curso)
-    #status = aprovado /reprovado
+    desempenhoDasAulas = models.ManyToManyField(DesempenhoDoAlunoPorAula, related_name="porCurso_porAula",blank = True,null = True)
+    dataCadastro = models.DateTimeField(auto_now_add = True, blank = True, null = True)
+    STATUS = (
+        ('Aprovado', 'Aprovado'),
+        ('Reprovado', 'Reprovado'),
+        ('Andamento', 'Andamento'))
+    status = models.CharField(max_length=30,choices=STATUS, blank=True)
+
+    class Meta:
+        verbose_name = u"Desempenho do aluno por curso"
+        verbose_name_plural = u"Desempenhos dos alunos por curso"
+
+    def __str__(self) :
+        return "%s - %s" % (self.aluno.nome, self.curso.titulo)
+
+    def __unicode__(self) :
+        return "%s - %s" % (self.aluno.nome, self.curso.titulo)
+
+    def getClass(self) :
+        return "DesempenhoAlunoPorAula"
 
 class Matricula(models.Model):
     CHOICES = (
@@ -165,13 +230,22 @@ class Matricula(models.Model):
     status = models.CharField(max_length=30,choices=CHOICES, blank=True)
     formasDePagamento = models.CharField(max_length=30,choices=FORMAS, blank=True)
     totalParcelas = models.PositiveIntegerField(verbose_name='Parcelas', blank=True, null=True)
-    inicioDoPeriodo = models.DateTimeField(auto_now_add = True, blank = True, null = True)
-    terminoDoPeriodo = models.DateTimeField(auto_now_add = True, blank = True, null = True)
+    inicioDoPeriodo = models.DateTimeField(blank = True, null = True)
+    terminoDoPeriodo = models.DateTimeField(blank = True, null = True)
 
     aulasAssistidas = models.ManyToManyField(Aula, related_name="matricula_aulas", verbose_name = "Aulas assistidas", blank = True, null = True)
     exerciciosConcluidos = models.ManyToManyField(Exercicio, related_name="matricula_exercicios", verbose_name = "Exercicios concluidos", blank = True, null = True)
 
     dataCadastro = models.DateTimeField(auto_now_add = True, blank = True, null = True)
+
+    def __str__(self) :
+        return "%s - %s" % (self.aluno.nome, self.curso.titulo)
+
+    def __unicode__(self) :
+        return "%s - %s" % (self.aluno.nome, self.curso.titulo)
+
+    def getClass(self) :
+        return "DesempenhoAlunoPorAula"
 
 #TODO - TRABALHAR MAIS AQUI
 class Visita(models.Model):

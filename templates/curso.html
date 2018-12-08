@@ -7,21 +7,22 @@
 {% block alunoNome %}{{aluno.nome}}{% endblock %}
 {% block alunoCPF %}{{aluno.cpf}}{% endblock %}
 {% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
-{% block listagemdeaulas%}
-<p>Aulas (Cronograma)</p>
-<ul class="lista-cronograma">
-{% for aula in curso.aulas.all %}
-<li><a href="{%if online%}/modoz{%endif%}/aula/{{aula.titulourl}}">{{aula.titulo}}</a></li>
-{% endfor %}
-</ul>
-{% endblock %}
 {% block conteudo %}
+{%if curso%}
       <h2 class="topspace">{{curso.titulo}}</h2>
 		<div class='cronograma'>
 			<p>Aulas (Cronograma)</p>
 			<ul class="marginless paddingless list-style-none ">
 				{% for aula in curso.aulas.all %}
-				<li><a href="{%if online%}/modoz{%endif %}/aula/{{aula.titulourl}}">
+				<li><a
+               {%if forloop.first%}
+                  href="{%if online%}/modoz{%endif %}/aula/{{aula.titulourl}}"
+                  {%else%}
+                     {% if proxAula %}
+                           href="{%if online%}/modoz{%endif %}/aula/{{aula.titulourl}}"
+                     {% else %}
+                  {%endif%}
+               {%endif%}>
                <span class="content-curs">
                   <span class="video-thumb">
                      {% if aula.getVideoID %}
@@ -42,4 +43,7 @@
 				{% endfor %}
 			</ul>
 		</div>
+{%else%}
+<h3>Você não tem permissão para ver esse curso.</h3>
+{%endif%}
 {% endblock conteudo %}

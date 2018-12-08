@@ -6,33 +6,39 @@
 {% block alunoNome %}{{aluno.nome}}{% endblock %}
 {% block alunoCPF %}{{aluno.cpf}}{% endblock %}
 {% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
-{% block listagemdeaulas%}
-<p>Aulas (Cronograma)</p>
-<ul class="lista-cronograma">
-{% for aula in cursoSetado.aulas.all %}
-<li><a href="{{site}}aula/{{aula.titulourl}}">{{aula.titulo}}</a></li>
-{% endfor %}
-</ul>
-{% endblock %}
 {% block conteudo %}
-   <h2 class="title-big-cur">{{exercicio.titulo}}</h2>
+{%if exercicio%}
+{% if concluido %}
+<h3>Você concluiu o {{exercicio.titulo}} com sucesso.</h3>
+{% if proxAula %}
+<a href="{%if online%}/modoz{% endif %}aula/{{proxAula.titulourl}}">{{proxAula.titulo}}</a>
+{%end if%}
+{%else%}
+<h2 class="title-big-cur">{{exercicio.titulo}}</h2>
+<form action="{%if online%}/modoz{% endif %}/processamentoAvaliacao/{{titulourl}}/" method="POST">
    <ul class="list-style-none">
       <li>
-         	<ol>
-               {% for questao in exercicio.questoes.all %}
-               <li>
-                  <span class="info-title-cu-02">{{questao.pergunta|safe}}</span>
-                  <ol class="alpha marginless paddingless">
-                     {% for alternativa in questao.alternativas.all %}
-                     <li>
-                        <label><input name="{{questao.id}}" class="paddingless marginless" type="radio" />{{alternativa.enunciado|safe}}</label>
-                     </li>
-                     {% endfor %}
-                  </ol>
-               </li>
-               {% endfor %}
-            </ol>
+      	<ol>
+            {% for questao in exercicio.questoes.all %}
+            <li>
+               <span class="info-title-cu-02">{{questao.pergunta|safe}}</span>
+               <ol class="alpha marginless paddingless">
+                  {% for alternativa in questao.alternativas.all %}
+                  <li>
+                     <label><input value='{{alternativa.id}}' name="{{questao.id}}" class="paddingless marginless" type="radio" />{{alternativa.enunciado|safe}}</label>
+                  </li>
+                  {% endfor %}
+               </ol>
+            </li>
+            {% endfor %}
+         </ol>
       </li>
    </ul>
+
    <button>Enviar</button>
+</form>
+{%endif%}
+{%else%}
+<h3>Você não tem permissão para acessar esse exercício.</h3>
+{%endif%}
 {% endblock conteudo %}

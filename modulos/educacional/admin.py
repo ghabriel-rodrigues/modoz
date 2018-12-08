@@ -21,9 +21,9 @@ class ExercicioAdmin(admin.ModelAdmin):
     prepopulated_fields = {'titulourl':('titulo',)}
 
 class AulaAdmin(admin.ModelAdmin):
-    list_display = ['titulo','tema','dataCadastro']
-    list_filter = ('titulo','tema','dataCadastro')
-    search_fields = ['titulo','tema','dataCadastro']
+    list_display = ['titulo','tema','relates_to','dataCadastro']
+    list_filter = ('titulo','tema','relates_to','dataCadastro')
+    search_fields = ['titulo','tema','relates_to','dataCadastro']
     prepopulated_fields = {'titulourl':('titulo',)}
 
 class CursoAdmin(admin.ModelAdmin):
