@@ -8,11 +8,20 @@
 {% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
 {% block conteudo %}
 {%if exercicio%}
-{% if concluido %}
-<h3>Você concluiu o {{exercicio.titulo}} com sucesso.</h3>
-{% if proxAula %}
-<a href="{%if online%}/modoz{% endif %}aula/{{proxAula.titulourl}}">{{proxAula.titulo}}</a>
-{%end if%}
+{% if exercicioEnviado %}
+<h3>Você concluiu o exercicio: {{exercicio.titulo}}. Sua nota foi: {{desempenhoExercicio.nota}}, {{desempenhoExercicio.status}}.</h3>
+   {%ifequal desempenhoExercicio.status "Aprovado" %}
+      {% if exercicio.aula.relates_to %}
+         <br/>
+         <a href="{%if online%}/modoz{% endif %}/aula/{{exercicio.aula.relates_to.titulourl}}">Ir para aula: {{exercicio.aula.relates_to.titulo}}</a>
+      {% else %}
+      {% if cursoRef %}<br/>
+         <a href="{%if online%}/modoz{% endif %}/curso/{{cursoRef.titulourl}}">Ir para listagem de aulas</a>
+      {% endif %}
+      {% endif %}
+   {% else %}
+   <a href="{%if online%}/modoz{% endif %}/aula/{{aulaComeback.titulourl}}">Refazer aula: {{aulaComeback.titulo}}</a>
+   {%endifequal%}
 {%else%}
 <h2 class="title-big-cur">{{exercicio.titulo}}</h2>
 <form action="{%if online%}/modoz{% endif %}/processamentoAvaliacao/{{titulourl}}/" method="POST">

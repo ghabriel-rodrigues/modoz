@@ -106,13 +106,21 @@ class FormDuvidas(ModelForm):
         self.fields['aula'].queryset = aulaPorCursos
         pergunta = forms.CharField(max_length=10000, widget=forms.Textarea, required=True)
 
-    def save(self, commit=True):
-        duvida = super(FormDuvidas, self).save(commit=False)
+    def clean_aula(self):
+        aulaID = self.cleaned_data['aula']
+        if aulaID == "" or aulaID == None or aulaID =='':
+            raise forms.ValidationError('Por favor informe a aula')
+        return self.cleaned_data['aula']
 
-        if commit:
-            duvida.save()
+    def clean_pergunta(self):
+        pergunta = self.cleaned_data['pergunta']
+        if pergunta == "" or pergunta == None or pergunta =='':
+            raise forms.ValidationError('Por favor informe a pergunta')
+        return self.cleaned_data['pergunta']
 
-        return duvida
+    # def save(self, commit=True):
+    #     duvida = super(FormDuvidas, self).save(commit=False)
+    #     return duvida
 
 
 class FormAluno(ModelForm):

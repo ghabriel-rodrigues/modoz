@@ -7,7 +7,7 @@
 {% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
 {% block conteudo %}
 <h2 class="topspace">INFORME SUA DÚVIDA</h2>
-
+{% if matriculas %}
 <form id="id_form_duvidas" action="{%if online%}/modoz{% endif %}/duvidas/" method="POST">
    {%if enviado%}<h3>Sua duvida foi enviada com sucesso!</h3>{%endif%}
    <fieldset>
@@ -76,4 +76,7 @@
     </span>
 </div> -->
 {% endif %}
+{%else%}
+<h2>Você não possui matricula cadastrada no sistema.</h2>
+{%endif%}
 {% endblock %}

@@ -233,7 +233,7 @@ class Matricula(models.Model):
     inicioDoPeriodo = models.DateTimeField(blank = True, null = True)
     terminoDoPeriodo = models.DateTimeField(blank = True, null = True)
 
-    aulasAssistidas = models.ManyToManyField(Aula, related_name="matricula_aulas", verbose_name = "Aulas assistidas", blank = True, null = True)
+    aulasAssistidas = models.ManyToManyField(Aula, related_name="matricula_aulas", verbose_name = "Aulas concluidas", blank = True, null = True)
     exerciciosConcluidos = models.ManyToManyField(Exercicio, related_name="matricula_exercicios", verbose_name = "Exercicios concluidos", blank = True, null = True)
 
     dataCadastro = models.DateTimeField(auto_now_add = True, blank = True, null = True)

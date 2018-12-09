@@ -13,15 +13,18 @@
 		<div class='cronograma'>
 			<p>Aulas (Cronograma)</p>
 			<ul class="marginless paddingless list-style-none ">
+            {% if curso.aulas.all %}
 				{% for aula in curso.aulas.all %}
 				<li><a
                {%if forloop.first%}
                   href="{%if online%}/modoz{%endif %}/aula/{{aula.titulourl}}"
-                  {%else%}
-                     {% if proxAula %}
-                           href="{%if online%}/modoz{%endif %}/aula/{{aula.titulourl}}"
-                     {% else %}
-                  {%endif%}
+               {%else%}
+                  {% for aulaHabilitada in aulasHabilitadas %}
+                  {% ifequal aulaHabilitada.id aula.id %}
+                        href="{%if online%}/modoz{%endif %}/aula/{{aula.titulourl}}"
+                  {% endifequal %}
+                  {%endfor%}
+
                {%endif%}>
                <span class="content-curs">
                   <span class="video-thumb">
@@ -32,7 +35,8 @@
                      {% endif %}
                   </span>
                   <span class="box-info-cur-fa">
-                     <span class="title-fa-cu">{{ aula.titulo }}</span>
+                     <span class="title-fa-cu"> 
+                        {{ aula.titulo }}</span>
                      <span class="info-title-cu">Horas: 00:00 / Status: {%if matricula.cursosituacao%}{{matricula.cursosituacao}}{%else%}Aberto{%endif%}</span>
                      <span class="content-text-cu">
                         {{ aula.descricao|safe }}
@@ -41,6 +45,7 @@
                </span>
             </a></li>
 				{% endfor %}
+            {%else%}Seu curso ainda não possui aulas cadastradas.{%endif%}
 			</ul>
 		</div>
 {%else%}

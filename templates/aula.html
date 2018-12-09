@@ -22,10 +22,10 @@
          <span class="info-title-cu-02">Horas: 00:00 / Status: {%if matricula.cursosituacao%}{{matricula.cursosituacao}}{%else%}Aberto{%endif%}</span>
          <span class="content-text-cu">{{ aula.descricao|safe }}</span>
       </li>
-      {% if aula.exercicios.all %}
+      {% if exercicios.all %}
       <li>
          <h3>Resolução de exercicios:</h3>
-         {% for exercicio in aula.exercicios.all %}
+         {% for exercicio in exercicios.all %}
             <a href="{%if online%}/modoz{%endif%}/exercicio/{{exercicio.titulourl}}">{{ exercicio.titulo|safe }}</a>
          {%endfor%}
       {%endif%}

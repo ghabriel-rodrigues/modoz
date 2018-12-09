@@ -187,12 +187,10 @@ def cancelar_matricula_view(request):
 
 @login_required
 def duvidas_view(request):
-    cad_usuario = None
     form = FormDuvidas(request.user)
 
     usuario = request.user
     aluno = Aluno.objects.get(email__exact=usuario.email)
-    matricula = Matricula.objects.filter(aluno__email__exact=usuario.email)
     duvidas = Duvida.objects.filter(aluno__email__exact=usuario.email)
     telaInicialDoAluno = TelaInicialDoAluno.objects.get(id=1)
     enviado = False
@@ -205,8 +203,6 @@ def duvidas_view(request):
     #
     # duvidas = paginator.page(page)
 
-    if request.session.get('cad_usuario'):
-        cad_usuario = request.session["cad_usuario"]
 
     if request.method == 'POST':
         form = FormDuvidas(request.user, request.POST)

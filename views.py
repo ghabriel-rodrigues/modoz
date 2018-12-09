@@ -60,27 +60,42 @@ def esqueceusuasenha_view(request):
 @login_required
 def curso(request,titulourl):
     cursoSetado = None
+    curso = False
     proxAula = False
+    aula = False
+    aulasHabilitadas = []
+    aulasDesabilitadas = []
+    aulasAssistidas = []
     if request.session.get('cursoSetado'):
         cursoSetado = request.session["cursoSetado"]
 
-    curso = Curso.objects.get(titulourl=titulourl)
+    cursoURL = Curso.objects.get(titulourl=titulourl)
     matriculas = Matricula.objects.filter(aluno__id__exact=request.user.id)
 
     for matricula in matriculas:
-        for aula in matricula.curso.aulas.all():
-            try:
-                aulaAssistida = matricula.aulasAssistidas.get(id__exact=aula.id)
-                proxAula = True
-            except:
-                pass
+        if (matricula.curso.id == cursoURL.id):
+            curso = cursoURL
+            matriculaRef = matricula
+            break
+
+
+    for aulaAssistida in matriculaRef.aulasAssistidas.all():
+        aulasHabilitadas.append(aulaAssistida.relates_to)
+        aulasAssistidas.append(aulaAssistida)
 
     return render_to_response('curso.html', locals(), context_instance=RequestContext(request),)
-
 
 @login_required
 def cursos(request):
     return render_to_response('cursos.html', locals(), context_instance=RequestContext(request),)
+
+@login_required
+def cursosAndamento(request):
+    return render_to_response('cursosAndamento.html', locals(), context_instance=RequestContext(request),)
+
+@login_required
+def cursosFinalizado(request):
+    return render_to_response('cursosFinalizado.html', locals(), context_instance=RequestContext(request),)
 
 @login_required
 def aula_view(request,titulourl):
@@ -89,16 +104,22 @@ def aula_view(request,titulourl):
     aulaURL = Aula.objects.get(titulourl=titulourl)
     aluno = Aluno.objects.get(id__exact=request.user.id)
     matriculas = Matricula.objects.filter(aluno__id__exact=request.user.id)
+    exercicios = Exercicio.objects.filter(aula__id__exact=aulaURL.id)
+    aulasHabilitadas = []
 
     for matricula in matriculas:
         for aula in matricula.curso.aulas.all():
             if (aula.id == aulaURL.id):
                 aula = aulaURL
-                try:
-                    aula = matricula.aulasAssistidas.filter(id__exact=aula.id).exists()
-                    proxAula = aula.relates_to
-                except:
-                    pass
+                if matricula.aulasAssistidas.all():
+                    for aulaAssistida in matricula.aulasAssistidas.all():
+                        if aulaAssistida.id == aula.id:
+                            aulasHabilitadas.append(aula.relates_to)
+                            aula = aulaAssistida
+                            break
+                else:
+                    if matricula.curso.aulaInaugural.id != aula.id:
+                        aula = False
                 break
             else:
                 aula = False
@@ -112,33 +133,37 @@ def aula_view(request,titulourl):
 def exercicio(request,titulourl):
     cursoSetado = None
     exercicio = None
-    aulas = []
+    aulasHabilitadas = []
 
     exercicioURL = Exercicio.objects.get(titulourl=titulourl)
     aluno = Aluno.objects.get(id__exact=request.user.id)
     matriculas = Matricula.objects.filter(aluno__id__exact=request.user.id)
-    matriculaRef = None
+    matriculaRef = False
+    cursoRef = False
+    aulaComeback = False
+    exercicioEnviado = False
 
     try:
         for matricula in matriculas:
             for aula in matricula.curso.aulas.all():
-                for exercicio in aula.exercicios.all():
-                    if exercicio.id == exercicioURL.id:
-                        aulas.append(aula)
-                        exercicio = exercicioURL
-                        cursoRef = matricula.curso
-                        matriculaRef = matricula
+                if exercicioURL.aula.id == aula.id:
+                    exercicio = exercicioURL
+                    cursoRef = matricula.curso
+                    matriculaRef = matricula
+                    aulaComeback = aula
+
     except Exception:
         exercicio = False
 
+    for aula in cursoRef.aulas.all():
+        if(matriculaRef.aulasAssistidas.filter(id__exact=aula.id)):
+            aulasHabilitadas.append(aula.relates_to)
+
     if(exercicio):
-        if request.session.get('cursoSetado'):
-            cursoSetado = request.session["cursoSetado"]
-        else:
-            cursoSetado = cursoRef
-            request.session["cursoSetado"] = cursoSetado
+        exerciciosPorAula = Exercicio.objects.filter(aula__id__exact=aulaComeback.id)
 
         if request.method == 'POST':
+            exercicioEnviado = True
             desempenhoExercicio = DesempenhoDoAlunoPorExercicio.create(aluno, exercicio,  datetime.datetime.now(), 'Andamento', 0)
             desempenhoExercicio.save()
             for item in request.POST.keys():
@@ -150,8 +175,8 @@ def exercicio(request,titulourl):
 
             aluno = Aluno.objects.get(id__exact=request.user.id)
 
-            corretas = 0
-            totalQuestoes = 0
+            corretas = 0.0
+            totalQuestoes = 0.0
             for questao in desempenhoExercicio.exercicio.questoes.all():
                 totalQuestoes +=1
                 for marcada in desempenhoExercicio.respostas.all():
@@ -159,11 +184,11 @@ def exercicio(request,titulourl):
                         corretas+=1
                         desempenhoExercicio.questoesAcertadas.add(questao)
 
-            resultado = 0
+            resultado = 0.0
 
             if(totalQuestoes != 0):
                 if(corretas != 0):
-                    resultado = (corretas / totalQuestoes) * 100
+                    resultado = float((corretas /totalQuestoes )*100)
             else:
                 exercicio = False
 
@@ -178,7 +203,8 @@ def exercicio(request,titulourl):
                 else:
                     if corretas != 0:
                         if desempenhoExercicio.exercicio.totalQuestoes:
-                            if resultado >= desempenhoExercicio.exercicio.totalQuestoes*100:
+                            resultado2 = float((desempenhoExercicio.exercicio.totalQuestoes /totalQuestoes )*100)
+                            if resultado >= resultado2:
                                 desempenhoExercicio.status = 'Aprovado'
                             else:
                                 desempenhoExercicio.status = 'Reprovado'
@@ -192,22 +218,12 @@ def exercicio(request,titulourl):
                         desempenhoExercicio.status = 'Reprovado'
                         desempenhoExercicio.save()
 
+
+                if desempenhoExercicio.status =='Aprovado':
+                    matriculaRef.aulasAssistidas.add(desempenhoExercicio.exercicio.aula)
+                    matriculaRef.exerciciosConcluidos.add(desempenhoExercicio.exercicio)
+                    matriculaRef.save()
+
                 desempenhoExercicio.save()
-                desempenhos = DesempenhoDoAlunoPorExercicio.objects.filter(aluno__id__exact=request.user.id).exclude(status__exact='Reprovado').filter(exercicio__id=exercicio.id)
-                checarFimDeAula(matriculaRef, desempenhos)
 
     return render_to_response('exercicio.html', locals(), context_instance=RequestContext(request),)
-
-def checarFimDeAula(matricula, desempenhos):
-    countExerciciosFeitos = 0
-    for aula in matricula.curso.aulas.all():
-        totalExercicios = aula.exercicios.count()
-        for exercicio in aula.exercicios.all():
-            for desempenho in desempenhos:
-                if desempenho.exercicio.id == exercicio.id and desempenho.status=='Aprovado':
-                    countExerciciosFeitos +=1
-
-        if countExerciciosFeitos == totalExercicios:
-            matricula.aulasAssistidas.add(aula)
-            matricula.save()
-            break
