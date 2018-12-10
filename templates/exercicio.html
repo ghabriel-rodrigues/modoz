@@ -15,6 +15,7 @@
          <br/>
          <a href="{%if online%}/modoz{% endif %}/aula/{{exercicio.aula.relates_to.titulourl}}">Ir para aula: {{exercicio.aula.relates_to.titulo}}</a>
       {% else %}
+      {% ifequal exercicio.status "avaliacao" %}<h3>Parabéns você finalizou seu curso.</h3>{% endifequal %}
       {% if cursoRef %}<br/>
          <a href="{%if online%}/modoz{% endif %}/curso/{{cursoRef.titulourl}}">Ir para listagem de aulas</a>
       {% endif %}
@@ -23,14 +24,19 @@
    <a href="{%if online%}/modoz{% endif %}/aula/{{aulaComeback.titulourl}}">Refazer aula: {{aulaComeback.titulo}}</a>
    {%endifequal%}
 {%else%}
+{% ifequal exercicio.status "avaliacao" %}
+<h2 class="title-big-cur">Avaliação final do curso {{cursoRef.titulo}}</h2>
+<h3>{{exercicio.titulo}}</h3>
+{% else %}
 <h2 class="title-big-cur">{{exercicio.titulo}}</h2>
+{% endifequal %}
 <form action="{%if online%}/modoz{% endif %}/processamentoAvaliacao/{{titulourl}}/" method="POST">
    <ul class="list-style-none">
       <li>
       	<ol>
             {% for questao in exercicio.questoes.all %}
             <li>
-               <span class="info-title-cu-02">{{questao.pergunta|safe}}</span>
+               <span class="info-title-cu-02">{% if questao.pergunta %}{{questao.pergunta|safe}}{% else %}{{questao.perguntaAbreviada}}{%endif%}</span>
                <ol class="alpha marginless paddingless">
                   {% for alternativa in questao.alternativas.all %}
                   <li>

@@ -26,7 +26,12 @@
       <li>
          <h3>Resolução de exercicios:</h3>
          {% for exercicio in exercicios.all %}
+            {% ifequal exercicio.status "avaliacao" %}
+            <h4>AVALIAÇÃO FINAL DE CURSO:</h4>
             <a href="{%if online%}/modoz{%endif%}/exercicio/{{exercicio.titulourl}}">{{ exercicio.titulo|safe }}</a>
+            {% else %}
+            <a href="{%if online%}/modoz{%endif%}/exercicio/{{exercicio.titulourl}}">{{ exercicio.titulo|safe }}</a>
+            {% endifequal %}
          {%endfor%}
       {%endif%}
       {% if aula.anexos %}

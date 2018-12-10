@@ -24,7 +24,6 @@
                         href="{%if online%}/modoz{%endif %}/aula/{{aula.titulourl}}"
                   {% endifequal %}
                   {%endfor%}
-
                {%endif%}>
                <span class="content-curs">
                   <span class="video-thumb">
@@ -35,9 +34,9 @@
                      {% endif %}
                   </span>
                   <span class="box-info-cur-fa">
-                     <span class="title-fa-cu"> 
+                     <span class="title-fa-cu">
                         {{ aula.titulo }}</span>
-                     <span class="info-title-cu">Horas: 00:00 / Status: {%if matricula.cursosituacao%}{{matricula.cursosituacao}}{%else%}Aberto{%endif%}</span>
+                     <span class="info-title-cu">Status: {%if matricula.cursosituacao%}{{matricula.cursosituacao}}{%else%}Aberto{%endif%}</span>
                      <span class="content-text-cu">
                         {{ aula.descricao|safe }}
                      </span>

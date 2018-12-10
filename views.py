@@ -83,6 +83,11 @@ def curso(request,titulourl):
         aulasHabilitadas.append(aulaAssistida.relates_to)
         aulasAssistidas.append(aulaAssistida)
 
+    for aula in matriculaRef.curso.aulas.all():
+        for aulaHab in aulasHabilitadas:
+            if aula.id == aulaHab.id:
+                aulasDesabilitadas.append(aula)
+
     return render_to_response('curso.html', locals(), context_instance=RequestContext(request),)
 
 @login_required
