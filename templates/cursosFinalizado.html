@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block titulo %}Cursos{% endblock %}
+{% block extrahead %}
+{% endblock %}
+
+{% block alunoNome %}{{aluno.nome}}{% endblock %}
+{% block alunoCPF %}{{aluno.cpf}}{% endblock %}
+{% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
+
+{% block conteudo %}
+
+      <h2 class="topspace">Meus cursos finalizados</h2>
+		<div class='cronograma'>
+         {%if matriculas %}
+			<ul class="marginless paddingless list-style-none ">
+   				{% for matricula in matriculas %}
+               {% if matricula.curso %}
+                  {% ifequal matricula.cursosituacao "Finalizado" %}
+      				<li><a href="{%if online%}/modoz{%endif %}/curso/{{matricula.curso.titulourl}}">
+                     <span class="content-curs">
+                        <span class="video-thumb">
+                           {% if matricula.curso.getVideoID %}
+                           <img src="https://img.youtube.com/vi/{{matricula.curso.getVideoID}}/mqdefault.jpg">
+                           {%else%}
+                           <img src="{{MEDIA_URL}}imgs/no-video.jpg">
+                           {% endif %}
+                        </span>
+                        <span class="box-info-cur-fa">
+                           <span class="title-fa-cu">{{ matricula.curso.titulo }}</span>
+                           <span class="info-title-cu">Horas: 00:00 / Status: {%if matricula.cursosituacao%}{{matricula.cursosituacao}}{%else%}Aberto{%endif%}</span>
+                           <span class="content-text-cu">
+                              {{ matricula.curso.descricao|safe }}
+                           </span>
+                        </span>
+                     </span>
+                  </a></li>
+                  {% else %}
+                  <h3>Você ainda não possui cursos finalizados na matricula {{matricula.numero}}.</h3>
+                  {% endifequal %}
+               {%else%}
+               <h3>Você ainda não possui curso cadastrado em sua matricula.</h3>
+               {%endif%}
+   				{% endfor %}
+			</ul>
+         {%else%}
+         <h3>Você ainda não possui matricula em nenhum curso.</h3>
+         {%endif%}
+		</div>
+{% endblock conteudo %}

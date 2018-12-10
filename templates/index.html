@@ -23,8 +23,8 @@
 <div id="cursos-in">
    <span class="title-big-cur">Cursos Adquiridos//</span>
    <span class="box-fast-btn">
-      <a href="#">Em andamento</a>
-      <a href="#">Finalizados</a>
+      <a href="{%if online %}/modoz{%endif %}/cursosEmAndamento/">Em andamento</a>
+      <a href="{%if online %}/modoz{%endif %}/cursosFinalizados/">Finalizados</a>
    </span>
    {% if matriculas %}
    {%for matricula in matriculas.all%}

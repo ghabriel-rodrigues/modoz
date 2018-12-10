@@ -72,6 +72,8 @@ urlpatterns = patterns('',
     #home
     (r'^curso/(?P<titulourl>[\w_-]+)/$', 'modoz.views.curso'),
     (r'^cursos/$', 'modoz.views.cursos'),
+    (r'^cursosFinalizados/$', 'modoz.views.cursosFinalizado'),
+    (r'^cursosEmAndamento/$', 'modoz.views.cursosAndamento'),
 
 
     #exercicio

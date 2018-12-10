@@ -219,14 +219,13 @@ class Matricula(models.Model):
         ('vista', 'vista'),
     )
     CURSOSTATUS = (
-        ('Iniciado', 'Iniciado'),
         ('Andamento', 'Andamento'),
         ('Finalizado', 'Finalizado'),
     )
     numero = models.CharField("Numero", max_length = 255, blank = True, null = True, help_text = "")
     aluno = models.ForeignKey(Aluno,blank=True, null=True)
     curso = models.ForeignKey(Curso,blank=True, null=True)
-    cursosituacao = models.CharField("Status curso", max_length=30,choices=CURSOSTATUS, blank=True)
+    cursosituacao = models.CharField("Status curso", max_length=30,choices=CURSOSTATUS, default='Andamento', blank=True)
     status = models.CharField(max_length=30,choices=CHOICES, blank=True)
     formasDePagamento = models.CharField(max_length=30,choices=FORMAS, blank=True)
     totalParcelas = models.PositiveIntegerField(verbose_name='Parcelas', blank=True, null=True)
