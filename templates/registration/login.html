@@ -21,7 +21,7 @@
             <p>Seu EMAIL ou sua SENHA n&atilde;o conferem. Por favor tente novamente.</p>
             {% endif %}
 				<br/>
-            <form id="id_form_cadastro" action="{% url django.contrib.auth.views.login %}" method="POST">
+            <form id="id_form_cadastro" action="{{settings.LOGIN_URL}}" method="POST">
 					{{ form.username.errors }}
 					<label>Username</label>
 					<div>

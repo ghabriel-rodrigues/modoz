@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -10,25 +10,34 @@ from django.core.files import File
 from django.core.mail import EmailMultiAlternatives, send_mail
 
 from modoz.modulos.institucional.models import TelaInicialDoAluno
-from modoz.modulos.pessoal.models import Matricula, Aluno, DesempenhoDoAlunoPorExercicio
+from modoz.modulos.pessoal.models import Matricula, Aluno, DesempenhoDoAlunoPorExercicio, Visita
 from modoz.modulos.educacional.models import Curso, Aula, Exercicio, Alternativa
 
 from django import forms
 import datetime
+import settings
 
-@login_required
-def home_view(request):
-    cad_usuario = None
+from django.contrib.auth import logout, authenticate, login
 
-    if request.session.get('cad_usuario'):
-        cad_usuario = request.session["cad_usuario"]
 
-    telaInicialDoAluno = TelaInicialDoAluno.objects.get(id=1)
-    return render_to_response(
-        'home.html', locals(), context_instance=RequestContext(request),)
+def update_aluno_login(sender, aluno, **kwargs):
+    aluno.online = True
+    aluno.save()
+    visita = Visita(aluno.id)
+    visita.save()
+
+def logout_view(request):
+    aluno = Aluno.objects.get(id__exact=request.user.id)
+    aluno.online = False
+    aluno.save()
+    logout(request)
+    return redirect(settings.LOGIN_REDIRECT_URL)
 
 @login_required
 def index(request):
+    aluno = Aluno.objects.get(id__exact=request.user.id)
+    aluno.online = True
+    aluno.save()
     return render_to_response('index.html', locals(), context_instance=RequestContext(request),)
 
 def esqueceusuasenha_view(request):
@@ -82,11 +91,6 @@ def curso(request,titulourl):
     for aulaAssistida in matriculaRef.aulasAssistidas.all():
         aulasHabilitadas.append(aulaAssistida.relates_to)
         aulasAssistidas.append(aulaAssistida)
-
-    for aula in matriculaRef.curso.aulas.all():
-        for aulaHab in aulasHabilitadas:
-            if aula.id == aulaHab.id:
-                aulasDesabilitadas.append(aula)
 
     return render_to_response('curso.html', locals(), context_instance=RequestContext(request),)
 

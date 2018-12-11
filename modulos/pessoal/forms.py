@@ -6,12 +6,6 @@ from django import forms
 from modoz.modulos.educacional.models import Curso, Aula
 from modoz.modulos.utils.cpf import CPF
 
-
-#class FormAluno(ModelForm):
-#    class Meta:
-#        model = Aluno
-#        exclude = ("data",)
-
 class FormAlterarDados(ModelForm):
     class Meta:
         model = User

@@ -20,6 +20,39 @@
          <a href="{%if online%}/modoz{% endif %}/curso/{{cursoRef.titulourl}}">Ir para listagem de aulas</a>
       {% endif %}
       {% endif %}
+      {% if desempenhoExercicio.exercicio.questoes.all %}
+      <br/>
+      <h3>Gabarito</h3>
+      <ol>
+      {% for questao in desempenhoExercicio.exercicio.questoes.all %}
+      <li>
+         <span>{% if questao.pergunta %}{{questao.pergunta|safe}}{% else %}{{questao.perguntaAbreviada}}{%endif%}</span>
+
+         <ol class="alpha marginless paddingless">
+            {% for alternativa in questao.alternativas.all %}
+            <li>
+               <label
+               {% for resposta in desempenhoExercicio.respostas.all %}
+                  {% ifequal questao.respostaCorreta.id resposta.id %}
+                     {% ifequal alternativa.id resposta.id %}
+                        style="color:green !important;"
+                     {% endifequal %}
+                  {% else %}
+                     {% ifequal questao.id resposta.id %}
+                        {% ifequal alternativa.id resposta.id %}
+                           style="color:red !important;"
+                        {% endifequal %}
+                     {% endifequal %}
+                  {% endifequal %}
+               {% endfor %}
+               >{{alternativa.enunciado|safe}}</label>
+            </li>
+            {% endfor %}
+         </ol>
+      </li>
+      {% endfor %}
+      </ol>
+      {% endif %}
    {% else %}
    <a href="{%if online%}/modoz{% endif %}/aula/{{aulaComeback.titulourl}}">Refazer aula: {{aulaComeback.titulo}}</a>
    {%endifequal%}
