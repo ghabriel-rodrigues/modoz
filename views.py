@@ -27,7 +27,7 @@ def update_aluno_login(sender, aluno, **kwargs):
     visita.save()
 
 def logout_view(request):
-    aluno = Aluno.objects.get(id__exact=request.user.id)
+    aluno = Aluno.objects.get(email__exact=request.user.email)
     aluno.online = False
     aluno.save()
     logout(request)
@@ -35,9 +35,17 @@ def logout_view(request):
 
 @login_required
 def index(request):
-    aluno = Aluno.objects.get(id__exact=request.user.id)
-    aluno.online = True
-    aluno.save()
+    if request.session.get('visita'):
+        visita = request.session["visita"]
+    else:
+        aluno = Aluno.objects.get(email__exact=request.user.email)
+        aluno.online = True
+        aluno.save()
+
+        visita = Visita(aluno.id)
+        visita.save()
+        request.session['visita'] = visita
+        request.session.set_expiry(0)
     return render_to_response('index.html', locals(), context_instance=RequestContext(request),)
 
 def esqueceusuasenha_view(request):
@@ -79,7 +87,7 @@ def curso(request,titulourl):
         cursoSetado = request.session["cursoSetado"]
 
     cursoURL = Curso.objects.get(titulourl=titulourl)
-    matriculas = Matricula.objects.filter(aluno__id__exact=request.user.id)
+    matriculas = Matricula.objects.filter(aluno__email__exact=request.user.email)
 
     for matricula in matriculas:
         if (matricula.curso.id == cursoURL.id):
@@ -111,8 +119,8 @@ def aula_view(request,titulourl):
     aula = True
     # checar permissao do aluno para ver essa aula
     aulaURL = Aula.objects.get(titulourl=titulourl)
-    aluno = Aluno.objects.get(id__exact=request.user.id)
-    matriculas = Matricula.objects.filter(aluno__id__exact=request.user.id)
+    aluno = Aluno.objects.get(email__exact=request.user.email)
+    matriculas = Matricula.objects.filter(aluno__email__exact=request.user.email)
     exercicios = Exercicio.objects.filter(aula__id__exact=aulaURL.id)
     aulasHabilitadas = []
 
@@ -145,8 +153,8 @@ def exercicio(request,titulourl):
     aulasHabilitadas = []
 
     exercicioURL = Exercicio.objects.get(titulourl=titulourl)
-    aluno = Aluno.objects.get(id__exact=request.user.id)
-    matriculas = Matricula.objects.filter(aluno__id__exact=request.user.id)
+    aluno = Aluno.objects.get(email__exact=request.user.email)
+    matriculas = Matricula.objects.filter(aluno__email__exact=usuario.email)
     matriculaRef = False
     cursoRef = False
     aulaComeback = False
@@ -182,7 +190,7 @@ def exercicio(request,titulourl):
                     alternativa = Alternativa.objects.get(id__exact=int(request.POST[item]))
                     desempenhoExercicio.respostas.add(alternativa)
 
-            aluno = Aluno.objects.get(id__exact=request.user.id)
+            aluno = Aluno.objects.get(email__exact=request.user.email)
 
             corretas = 0.0
             totalQuestoes = 0.0
