@@ -250,5 +250,10 @@ class Matricula(models.Model):
 class Visita(models.Model):
     aluno = models.ForeignKey(Aluno,blank=True, null=True)
     horario = models.DateTimeField(auto_now_add = True, blank = True, null = True)
+    @classmethod
+    def create(cls, aluno, horario):
+        visita = cls( aluno=aluno, horario=horario)
+        # do something with the book
+        return visita
 #TODO
 #class Performance

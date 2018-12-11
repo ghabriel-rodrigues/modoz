@@ -42,7 +42,7 @@ def index(request):
         aluno.online = True
         aluno.save()
 
-        visita = Visita(aluno.id)
+        visita = Visita.create(aluno, datetime.datetime.now())
         visita.save()
         request.session['visita'] = visita
         request.session.set_expiry(0)
