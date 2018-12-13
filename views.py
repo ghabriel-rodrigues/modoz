@@ -154,7 +154,7 @@ def exercicio(request,titulourl):
 
     exercicioURL = Exercicio.objects.get(titulourl=titulourl)
     aluno = Aluno.objects.get(email__exact=request.user.email)
-    matriculas = Matricula.objects.filter(aluno__email__exact=usuario.email)
+    matriculas = Matricula.objects.filter(aluno__email__exact=aluno.email)
     matriculaRef = False
     cursoRef = False
     aulaComeback = False
