@@ -100,6 +100,15 @@ def curso(request,titulourl):
         aulasHabilitadas.append(aulaAssistida.relates_to)
         aulasAssistidas.append(aulaAssistida)
 
+    if matriculaRef:
+        if matriculaRef.status != 'Habilitada':
+            curso = False
+
+        if matriculaRef.terminoDoPeriodo >= datetime.datetime.now():
+            pass
+        else:
+            curso = False
+
     return render_to_response('curso.html', locals(), context_instance=RequestContext(request),)
 
 @login_required
