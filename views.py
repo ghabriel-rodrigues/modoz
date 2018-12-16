@@ -115,18 +115,19 @@ def cursosFinalizado(request):
     return render_to_response('cursosFinalizado.html', locals(), context_instance=RequestContext(request),)
 
 @login_required
-def aula_view(request,titulourl):
+def aula_view(request,titulourl, cursourl):
     aula = True
     # checar permissao do aluno para ver essa aula
     aulaURL = Aula.objects.get(titulourl=titulourl)
     aluno = Aluno.objects.get(email__exact=request.user.email)
-    matriculas = Matricula.objects.filter(aluno__email__exact=request.user.email)
+    matriculas = Matricula.objects.filter(aluno__email__exact=request.user.email).filter(curso__titulourl=cursourl)
     exercicios = Exercicio.objects.filter(aula__id__exact=aulaURL.id)
     aulasHabilitadas = []
 
     for matricula in matriculas:
         for aula in matricula.curso.aulas.all():
             if (aula.id == aulaURL.id):
+                matriculaRef = matricula
                 aula = aulaURL
                 if matricula.aulasAssistidas.all():
                     for aulaAssistida in matricula.aulasAssistidas.all():
@@ -137,12 +138,19 @@ def aula_view(request,titulourl):
                 else:
                     if matricula.curso.aulaInaugural.id != aula.id:
                         aula = False
+
                 break
             else:
                 aula = False
 
-    # except Exception:
-    #     aula = False
+    if matriculaRef:
+        if matriculaRef.status != 'Habilitada':
+            aula = False
+
+        if matriculaRef.terminoDoPeriodo >= datetime.datetime.now():
+            pass
+        else:
+            aula = False
 
     return render_to_response('aula.html', locals(), context_instance=RequestContext(request),)
 

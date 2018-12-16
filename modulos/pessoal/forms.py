@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django import forms
 from modoz.modulos.educacional.models import Curso, Aula
 from modoz.modulos.utils.cpf import CPF
+from datetime import timedelta
 
 class FormAlterarDados(ModelForm):
     class Meta:
@@ -48,6 +49,16 @@ class FormAlterarDados(ModelForm):
             usuario.save()
 
         return usuario
+
+class FormMatricula(ModelForm):
+
+    class Meta:
+        model = Matricula
+
+
+    def clean_terminoDoPeriodo(self):
+        self.cleaned_data['terminoDoPeriodo'] = self.cleaned_data['inicioDoPeriodo'] + timedelta(days=self.cleaned_data['curso'].diasDisponiveis)
+        return self.cleaned_data['terminoDoPeriodo']
 
 class FormCancelarMatricula(ModelForm):
     class Meta:

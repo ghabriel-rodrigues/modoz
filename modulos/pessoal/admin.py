@@ -1,7 +1,9 @@
 #-*- coding: utf-8 -*-
 from django.contrib import admin
 from models import Aluno, Professor, Matricula, Duvida, Visita,MotivoCancelamento, DesempenhoDoAlunoPorAula, DesempenhoDoAlunoPorCurso, DesempenhoDoAlunoPorExercicio
-from forms import FormAluno
+from forms import FormAluno, FormMatricula
+
+
 
 class MotivoAdmin(admin.ModelAdmin):
     #add_form = FormCadastro
@@ -47,17 +49,15 @@ class DuvidaAdmin(admin.ModelAdmin):
     list_display = [ 'aluno', 'pergunta', 'resposta', 'dataCadastro']
 
 class MatriculaAdmin(admin.ModelAdmin):
-    #add_form = FormCadastro
-    #form = FormCadastro
+    add_form = FormMatricula
+    form = FormMatricula
     list_display = ['aluno', 'status', 'numero', 'curso', 'formasDePagamento', 'inicioDoPeriodo', 'terminoDoPeriodo']
     list_filter = ('status', 'numero', 'curso', 'formasDePagamento', 'inicioDoPeriodo', 'terminoDoPeriodo')
-    search_fields = ['aluno__email', 'status', 'numero', 'curso__titulo', 'formasDePagamento']
+    search_fields = ['aluno__email','aluno__nome', 'status', 'numero', 'curso__titulo', 'formasDePagamento']
 
 class VisitaAdmin(admin.ModelAdmin):
-    #add_form = FormCadastro
-    #form = FormCadastro
     list_display = ['aluno', 'horario']
-    list_filter = ('horario',)
+    list_filter = ('aluno','horario',)
     search_fields = ['aluno__email','aluno__nome','aluno__cpf',]
 
 admin.site.register(MotivoCancelamento, MotivoAdmin)

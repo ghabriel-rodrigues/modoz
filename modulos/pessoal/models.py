@@ -238,13 +238,19 @@ class Matricula(models.Model):
     dataCadastro = models.DateTimeField(auto_now_add = True, blank = True, null = True)
 
     def __str__(self) :
-        return "%s - %s" % (self.aluno.nome, self.curso.titulo)
+        return "%s" % (self.aluno.nome)
 
     def __unicode__(self) :
-        return "%s - %s" % (self.aluno.nome, self.curso.titulo)
+        return "%s" % (self.aluno.nome)
 
     def getClass(self) :
         return "DesempenhoAlunoPorAula"
+
+    def get_autoriza_curso(self) :
+        if self.terminoDoPeriodo <= datetime.now():
+            return True
+        else:
+            return False
 
 #TODO - TRABALHAR MAIS AQUI
 class Visita(models.Model):

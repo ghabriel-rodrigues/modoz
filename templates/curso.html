@@ -17,11 +17,11 @@
 				{% for aula in curso.aulas.all %}
 				<li><a
                {%if forloop.first%}
-                  href="{%if online%}/modoz{%endif %}/aula/{{aula.titulourl}}"
+                   href="{%if online%}/modoz{%endif %}/aula/{{aula.titulourl}}/{{curso.titulourl}}"
                {%else%}
                   {% for aulaHabilitada in aulasHabilitadas %}
                   {% ifequal aulaHabilitada.id aula.id %}
-                        href="{%if online%}/modoz{%endif %}/aula/{{aula.titulourl}}"
+                     href="{%if online%}/modoz{%endif %}/aula/{{aula.titulourl}}/{{curso.titulourl}}"
                   {% endifequal %}
                   {%endfor%}
                {%endif%}>
@@ -34,8 +34,16 @@
                      {% endif %}
                   </span>
                   <span class="box-info-cur-fa">
-                     <span class="title-fa-cu">
-                        {{ aula.titulo }}</span>
+                     <span class="title-fa-cu locked"
+                     {%if forloop.first%}
+                        style="background:none; padding-left:0;"
+                     {%else%}
+                        {% for aulaHabilitada in aulasHabilitadas %}
+                        {% ifequal aulaHabilitada.id aula.id %}
+                           style="background:none; padding-left:0;"
+                        {% endifequal %}
+                        {%endfor%}
+                     {%endif%}>{{ aula.titulo }}</span>
                      <span class="info-title-cu">Status: {%if matricula.cursosituacao%}{{matricula.cursosituacao}}{%else%}Aberto{%endif%}</span>
                      <span class="content-text-cu">
                         {{ aula.descricao|safe }}
