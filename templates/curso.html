@@ -6,6 +6,7 @@
 
 {% block alunoNome %}{{aluno.nome}}{% endblock %}
 {% block alunoCPF %}{{aluno.cpf}}{% endblock %}
+{% block alunoProgressao %}Curso concluído: {{matriculaRef.get_progressao_curso}}%{% endblock %}
 {% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
 {% block conteudo %}
 {%if curso%}
@@ -36,11 +37,11 @@
                   <span class="box-info-cur-fa">
                      <span class="title-fa-cu locked"
                      {%if forloop.first%}
-                        style="background:none; padding-left:0;"
+                        style="background: url({{MEDIA_URL}}imgs/lock-open.png) no-repeat left center; background-size: 17px; padding-left: 30px;"
                      {%else%}
                         {% for aulaHabilitada in aulasHabilitadas %}
                         {% ifequal aulaHabilitada.id aula.id %}
-                           style="background:none; padding-left:0;"
+                           style="background: url({{MEDIA_URL}}imgs/lock-open.png) no-repeat left center; background-size: 17px; padding-left: 30px;"
                         {% endifequal %}
                         {%endfor%}
                      {%endif%}>{{ aula.titulo }}</span>

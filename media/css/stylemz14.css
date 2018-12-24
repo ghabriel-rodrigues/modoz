@@ -5,7 +5,7 @@
 	font-family:myriadproregular;
 	src:url(fonts/myriadproregular.otf);
 }
-.locked { background: url(../imgs/lock-closed.png) no-repeat left center; padding-left: 30px;}
+.locked { background: url(../imgs/lock-closed.png) no-repeat left center; background-size: 17px; padding-left: 30px;}
 input, select, textarea{
 
 	border-radius:03px;

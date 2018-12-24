@@ -6,6 +6,7 @@
 
 {% block alunoNome %}{{aluno.nome}}{% endblock %}
 {% block alunoCPF %}{{aluno.cpf}}{% endblock %}
+{% block alunoProgressao %}Curso concluído: {{matriculaRef.get_progressao_curso}}%{% endblock %}
 {% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
 {% block conteudo %}
 {%if aula%}

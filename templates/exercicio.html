@@ -5,21 +5,13 @@
 
 {% block alunoNome %}{{aluno.nome}}{% endblock %}
 {% block alunoCPF %}{{aluno.cpf}}{% endblock %}
+{% block alunoProgressao %}Curso concluído: {{matriculaRef.get_progressao_curso}}%{% endblock %}
 {% block textoPirataria %}{{telaInicialDoAluno.textoPirataria|safe}}{% endblock %}
 {% block conteudo %}
 {%if exercicio%}
 {% if exercicioEnviado %}
 <h3>Você concluiu o exercicio: {{exercicio.titulo}}. Sua nota foi: {{desempenhoExercicio.nota}}, {{desempenhoExercicio.status}}.</h3>
    {%ifequal desempenhoExercicio.status "Aprovado" %}
-      {% if exercicio.aula.relates_to %}
-         <br/>
-         <a href="{%if online%}/modoz{% endif %}/aula/{{exercicio.aula.relates_to.titulourl}}">Ir para aula: {{exercicio.aula.relates_to.titulo}}</a>
-      {% else %}
-      {% ifequal exercicio.status "avaliacao" %}<h3>Parabéns você finalizou seu curso.</h3>{% endifequal %}
-      {% if cursoRef %}<br/>
-         <a href="{%if online%}/modoz{% endif %}/curso/{{cursoRef.titulourl}}">Ir para listagem de aulas</a>
-      {% endif %}
-      {% endif %}
       {% if desempenhoExercicio.exercicio.questoes.all %}
       <br/>
       <h3>Gabarito</h3>
@@ -52,6 +44,15 @@
       </li>
       {% endfor %}
       </ol>
+      {% endif %}
+      {% if exercicio.aula.relates_to %}
+         <br/>
+         <a href="{%if online%}/modoz{% endif %}/aula/{{exercicio.aula.relates_to.titulourl}}"><h3>Ir para aula: {{exercicio.aula.relates_to.titulo}}</h3></a>
+      {% else %}
+         {% ifequal exercicio.status "avaliacao" %}<h3>Parabéns você finalizou seu curso.</h3>{% endifequal %}
+         {% if cursoRef %}<br/>
+            <a href="{%if online%}/modoz{% endif %}/curso/{{cursoRef.titulourl}}">Ir para listagem de aulas</a>
+         {% endif %}
       {% endif %}
    {% else %}
    <a href="{%if online%}/modoz{% endif %}/aula/{{aulaComeback.titulourl}}">Refazer aula: {{aulaComeback.titulo}}</a>

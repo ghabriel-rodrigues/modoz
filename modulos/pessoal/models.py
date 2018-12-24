@@ -252,6 +252,15 @@ class Matricula(models.Model):
         else:
             return False
 
+    def get_progressao_curso(self) :
+        aulasTotais = float(self.curso.aulas.count())
+        aulasAssistidas = float(self.aulasAssistidas.count())
+        try:
+            resultado = float((aulasAssistidas / aulasTotais )*100)
+        except:
+            resultado = 0
+        return '%.1f' % resultado
+
 #TODO - TRABALHAR MAIS AQUI
 class Visita(models.Model):
     aluno = models.ForeignKey(Aluno,blank=True, null=True)
