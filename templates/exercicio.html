@@ -47,7 +47,7 @@
       {% endif %}
       {% if exercicio.aula.relates_to %}
          <br/>
-         <a href="{%if online%}/modoz{% endif %}/aula/{{exercicio.aula.relates_to.titulourl}}"><h3>Ir para aula: {{exercicio.aula.relates_to.titulo}}</h3></a>
+         <a href="{%if online%}/modoz{% endif %}/aula/{{exercicio.aula.relates_to.titulourl}}/{{curso.titulourl}}"><h3>Ir para aula: {{exercicio.aula.relates_to.titulo}}</h3></a>
       {% else %}
          {% ifequal exercicio.status "avaliacao" %}<h3>Parabéns você finalizou seu curso.</h3>{% endifequal %}
          {% if cursoRef %}<br/>
@@ -55,7 +55,7 @@
          {% endif %}
       {% endif %}
    {% else %}
-   <a href="{%if online%}/modoz{% endif %}/aula/{{aulaComeback.titulourl}}">Refazer aula: {{aulaComeback.titulo}}</a>
+   <a href="{%if online%}/modoz{% endif %}/aula/{{aulaComeback.titulourl}}/{{curso.titulourl}}">Refazer aula: {{aulaComeback.titulo}}</a>
    {%endifequal%}
 {%else%}
 {% ifequal exercicio.status "avaliacao" %}
