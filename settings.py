@@ -75,12 +75,12 @@ MEDIA_ROOT = os.path.join(PROJECT_ROOT_PATH, 'media')
 # Examples: "http://foo.com/media/", "/media/".
 if ONLINE:
     #ADMIN_MEDIA_PREFIX = 'http://modoz.com.br/modoz/media/admin/'
-    ADMIN_MEDIA_PREFIX = 'http://devpublicon.kinghost.net/modoz/media/admin/'
+    ADMIN_MEDIA_PREFIX = 'http://modozero.com.br/modoz/media/admin/'
 
     # URL that handles the media served from MEDIA_ROOT. Make sure to use a
     # trailing slash if there is a path component (optional in other cases).
     # Examples: "http://media.lawrence.com", "http://example.com/media/"
-    MEDIA_URL = 'http://devpublicon.kinghost.net/modoz/media/'
+    MEDIA_URL = 'http://modozero.com.br/modoz/media/'
 
 else:
     ADMIN_MEDIA_PREFIX = 'http://127.0.0.1:8000/media/admin/'
