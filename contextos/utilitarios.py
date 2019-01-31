@@ -21,7 +21,7 @@ def utilidades(request):
 
     except:
         pass
-
+        
     myhost = os.uname()[1]
     if myhost == 'ghabriel-pc':
         site = 'http://localhost:8000/'
