@@ -404,7 +404,7 @@ body{
 	display:inline-block;
 	border-radius:03px;
 	padding:01%;
-
+	width: 17%;
 	}
 
 #cursos-in a:hover{
@@ -453,7 +453,7 @@ body{
 	background:url(../imgs/arrwon-down.jpg) no-repeat center center;
 	width: 10%;
 	display: inline-block;
-	margin: 0 03%;
+	margin: 0 0 0 5px;
 
 	}
 

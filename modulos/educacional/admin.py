@@ -10,6 +10,9 @@ class TemaAdmin(admin.ModelAdmin):
 
 class AlternativaAdmin(admin.ModelAdmin):
     list_display = ['enunciadoAbreviado','tema','dataCadastro']
+    list_filter = ('enunciadoAbreviado','tema','dataCadastro')
+    search_fields = ['enunciadoAbreviado','tema','dataCadastro']
+    
 
 class QuestaoAdmin(admin.ModelAdmin):
     list_display = ['perguntaAbreviada','tema','dataCadastro']
@@ -28,8 +31,8 @@ class AulaAdmin(admin.ModelAdmin):
 
 class CursoAdmin(admin.ModelAdmin):
     list_display = ['id','tema','titulo','dataCadastro']
-    list_filter = ('titulo','dataCadastro')
-    search_fields = ['titulo','dataCadastro']
+    list_filter = ('titulo','tema','dataCadastro')
+    search_fields = ['titulo','tema','dataCadastro']
     prepopulated_fields = {'titulourl':('titulo',)}
 
 admin.site.register(Tema, TemaAdmin)

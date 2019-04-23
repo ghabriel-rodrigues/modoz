@@ -23,7 +23,7 @@ class Tema(models.Model):
 
     class Meta:
         verbose_name = u"Tema"
-        verbose_name_plural = u"Temas"
+        verbose_name_plural = u"0. Temas"
 
     def __str__(self) :
         return "%s - %s" % (self.id, self.titulo)
@@ -47,7 +47,7 @@ class Alternativa(models.Model):
 
     class Meta:
         verbose_name = u"Alternativa"
-        verbose_name_plural = u"Alternativas"
+        verbose_name_plural = u"1. Alternativas"
 
     def __str__(self) :
         return "%s" % (self.enunciadoAbreviado)
@@ -72,7 +72,7 @@ class Questao(models.Model):
 
     class Meta:
         verbose_name = u"Questao"
-        verbose_name_plural = u"Questoes"
+        verbose_name_plural = u"2. Questoes"
 
     def criar_miniaturas(self):
         if self.imagem:
@@ -129,7 +129,7 @@ class Aula(models.Model):
 
     class Meta:
         verbose_name = u"Aula"
-        verbose_name_plural = u"Aulas"
+        verbose_name_plural = u"4. Aulas"
 
     def __str__(self) :
         return "%s" % (self.titulo)
@@ -166,7 +166,7 @@ class Exercicio(models.Model):
 
     class Meta:
         verbose_name = u"Exercicio"
-        verbose_name_plural = u"Exercicios"
+        verbose_name_plural = u"3. Exercicios"
 
     def __str__(self) :
         return "%s - %s" % (self.tema, self.titulo)
@@ -197,7 +197,7 @@ class Curso(models.Model):
 
     class Meta:
         verbose_name = u"Curso"
-        verbose_name_plural = u"Cursos"
+        verbose_name_plural = u"5. Cursos"
 
     def __str__(self) :
         return "%s" % (self.titulo)
