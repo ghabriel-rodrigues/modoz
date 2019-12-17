@@ -6,11 +6,7 @@ import base64
 try:
     import Image
 except ImportError:
-    try:
-        pass
-        #from modoz.modulos.PIL import Image
-    except ImportError:
-        raise ImportError(u"Projeto modoz n\u00E3o conseguiu importar a biblioteca de imagem do Python (Python Imaging Library).")
+    raise ImportError(u"Projeto modoz n\u00E3o conseguiu importar a biblioteca de imagem do Python (Python Imaging Library).")
 
 
 class Tema(models.Model):
